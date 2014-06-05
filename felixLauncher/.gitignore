@@ -1,0 +1,6 @@
+/bin
+/target
+/bundle
+/felix-cache
+/.classpath
+/.settings
