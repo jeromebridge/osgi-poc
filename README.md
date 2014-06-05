@@ -8,4 +8,9 @@
 5. The Felix console should show in the Eclipse Console
 6. Add the test bundle from Eclipse into the running Felix container with the following command:
  
-        install assembly:"/home/developer/Workspaces/Workspace - OSGi2/test.bundle/target/classes"
+        install assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
+
+7. After you install the bundle the console will tell you a Bundle ID; use the ID to start the bundle:
+
+        start 5
+        
