@@ -23,7 +23,10 @@
 
 This means the directory you specifies does not exist or you do not have permissions to it.
 
-
     java.lang.NullPointerException
 
 First thing make sure you have META-INF/MANIFEST.MF in the directory you are pointing to.
+
+    org.osgi.framework.BundleException: Fragment bundles can not be started.
+
+Fragment bundles can not be started so you see this error. As soon as the host plugin 'bundle' of the fragment is started, the osgi framework will attach the fragment to it (automatically). 
