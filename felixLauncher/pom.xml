@@ -8,6 +8,10 @@
     <name>Felix Launcher</name>
 
     <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <felix.bundlerepository.version>2.0.2</felix.bundlerepository.version>
         <felix.gogo.command.version>0.14.0</felix.gogo.command.version>
         <felix.gogo.runtime.version>0.12.0</felix.gogo.runtime.version>
