@@ -3,13 +3,25 @@ package test.commands.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import test.commands.shell.MyStartCommandImpl;
+
 public class Activator implements BundleActivator {
 
-  public void start(BundleContext arg0) throws Exception {
-    System.out.println("Commands  ... fuck yeah!!!");
-  }
+   private transient BundleContext m_context = null;
 
-  public void stop(BundleContext arg0) throws Exception {
-    System.out.println("Bye ... yeah!!");
-  }
+   public void start( BundleContext context )
+   {
+      m_context = context;
+
+      // Register the command service.
+      context.registerService(
+            org.apache.felix.shell.Command.class.getName(),
+            new MyStartCommandImpl( m_context ), null );
+   }
+
+   public void stop( BundleContext context )
+   {
+      // Services are automatically unregistered so
+      // we don't have to unregister the factory here.
+   }
 }
