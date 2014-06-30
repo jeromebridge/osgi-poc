@@ -14,3 +14,16 @@
 
         start 5
         
+
+# FAQ
+
+## I get this error when trying to install a bundle to debug through Eclipse: 
+
+    org.ops4j.io.HierarchicalIOException: Source [/home/developer/git/osgi-poc/yas-commons/target/classes includes([.*]) excludes([])] cannot be used. Stopping.
+
+This means the directory you specifies does not exist or you do not have permissions to it.
+
+
+    java.lang.NullPointerException
+
+First thing make sure you have META-INF/MANIFEST.MF in the directory you are pointing to.
