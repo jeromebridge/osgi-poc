@@ -4,6 +4,10 @@
 2. Right click felixLauncher project and select "Run As -> Java Application"
 2. Set Main Class: *org.apache.felix.main.Main*
 3. Under Arguments Tab, set VM Arguments: *-Djava.protocol.handler.pkgs=org.ops4j.pax.url*
+    4. Optional, Also set any specific Maven repositories you want to point to:
+            
+            -Dorg.ops4j.pax.url.mvn.settings=conf/maven-settings.xml
+            -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository
 4. Click run
 5. The Felix console should show in the Eclipse Console
 6. Add the test bundle from Eclipse into the running Felix container with the following command:
@@ -61,3 +65,12 @@ Fragment bundles can not be started so you see this error. As soon as the host p
 This error happens even though you have installed a bundle that exposes the package you are looking for.  This is most likely due to the exported package not having a version in the manifest file or the version is not within the range of the import that is required for the bundle you are trying to deploy.
 
 OSGi DOES NOT USE the Bundle-Version to determine the version of exports.  Instead each exported package is allowed to have its own version number.
+
+## How Do I Specify Custom Maven Settings (For Installing Dependencies)?
+
+See this <a href="#">link</a> for PAX URL documentation.  You can set the *org.ops4j.pax.url.mvn.settings* and properties in the system properties of the VM.  I tried to set this in the config.properties but it does not get picked up when I run through Eclipse.  It may be possible to set there as well depending on how you add PAX URL to your container.  I am setting this property in the example.
+
+    -Dorg.ops4j.pax.url.mvn.settings=conf/maven-settings.xml
+    -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository,http://repository.ops4j.org/maven2/
+
+
