@@ -18,6 +18,12 @@
 
         update 5
 
+# Running Gogo "Shell Script"
+
+You are able to creates scripts and run them in the Felix GoGo console.  You can run the example in the project that installs bundles to turn the Felix console into a web server (Jetty):
+
+    sh scripts/setup.sh
+
 # FAQ
 
 ## I get this error when trying to install a bundle to debug through Eclipse: 
