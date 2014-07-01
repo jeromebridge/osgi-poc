@@ -20,6 +20,8 @@
         <felix.configuration.version>1.8.0</felix.configuration.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <pax.url.version>2.1.0</pax.url.version>
+        <pax.url.mvn.version>1.3.7</pax.url.mvn.version>
+        <pax.url.wrap.version>2.1.0</pax.url.wrap.version>
     </properties>
 
     <build>
@@ -74,13 +76,13 @@
                                     <artifactId>org.apache.felix.bundlerepository</artifactId>
                                     <version>${felix.bundlerepository.version}</version>
                                 </artifactItem>
-                                
+
                                 <artifactItem>
                                     <groupId>org.osgi</groupId>
                                     <artifactId>org.osgi.compendium</artifactId>
                                     <version>4.2.0</version>
                                 </artifactItem>
-        
+
                                 <!-- Optional -->
                                 <artifactItem>
                                     <groupId>org.slf4j</groupId>
@@ -142,5 +144,17 @@
             <artifactId>pax-url-assembly</artifactId>
             <version>${pax.url.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-mvn</artifactId>
+            <version>${pax.url.mvn.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.url</groupId>
+            <artifactId>pax-url-wrap</artifactId>
+            <version>${pax.url.wrap.version}</version>
+        </dependency>
+
+
     </dependencies>
 </project>
