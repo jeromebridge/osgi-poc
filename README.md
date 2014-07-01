@@ -34,6 +34,12 @@ You are able to creates scripts and run them in the Felix GoGo console.  You can
             http://www.knopflerfish.org/repo/bindex.xml \
             http://sling.apache.org/obr/repository.xml
 
+# Install A "Legacy" Maven Dependency As Bundle
+
+You can install legacy jar files and generate the bundle manifest at the time of installing it.  You can specify the directives to use to generate the bundle in the command  line or through properties file.  See the documentation <a href="https://ops4j1.jira.com/wiki/display/paxurl/Wrap+Protocol">here</a>.  Example (Run this from the Felix console):
+
+    install wrap:mvn:org.liquibase/liquibase-core/3.2.0\$Bundle-SymbolicName=Liquibase&Bundle-Version=3.2.0&Export-Package=liquibase.*\;version=\"3.2.0\"
+
 # FAQ
 
 ## I get this error when trying to install a bundle to debug through Eclipse: 
@@ -49,3 +55,4 @@ First thing make sure you have META-INF/MANIFEST.MF in the directory you are poi
     org.osgi.framework.BundleException: Fragment bundles can not be started.
 
 Fragment bundles can not be started so you see this error. As soon as the host plugin 'bundle' of the fragment is started, the osgi framework will attach the fragment to it (automatically). 
+
