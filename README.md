@@ -18,6 +18,22 @@
 
         update 5
 
+# Running Gogo "Shell Script"
+
+You are able to creates scripts and run them in the Felix GoGo console.  You can run the example in the project that installs bundles to turn the Felix console into a web server (Jetty):
+
+    sh scripts/setup.sh
+
+# Set OBR Repositories At Startup
+
+1. Edit the *conf/config.properties* file
+2. Set property *obr.repository.url* to a list of repository URLs separated by spaces.  Example:
+
+        obr.repository.url= \
+	           http://felix.apache.org/obr/releases.xml \
+            http://www.knopflerfish.org/repo/bindex.xml \
+            http://sling.apache.org/obr/repository.xml
+
 # FAQ
 
 ## I get this error when trying to install a bundle to debug through Eclipse: 
