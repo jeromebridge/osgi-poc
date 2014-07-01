@@ -73,6 +73,12 @@
                                     <artifactId>org.apache.felix.bundlerepository</artifactId>
                                     <version>${felix.bundlerepository.version}</version>
                                 </artifactItem>
+                                
+                                <artifactItem>
+                                    <groupId>org.osgi</groupId>
+                                    <artifactId>org.osgi.compendium</artifactId>
+                                    <version>4.2.0</version>
+                                </artifactItem>
 
                                 <!-- Optional -->
                                 <artifactItem>

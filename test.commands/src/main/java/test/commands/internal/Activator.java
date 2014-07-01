@@ -12,11 +12,15 @@ public class Activator implements BundleActivator {
    public void start( BundleContext context )
    {
       m_context = context;
+      
+      System.out.println("commands  ... fuck yeah!!!");
 
       // Register the command service.
       context.registerService(
             org.apache.felix.shell.Command.class.getName(),
             new MyStartCommandImpl( m_context ), null );
+      
+      
    }
 
    public void stop( BundleContext context )
