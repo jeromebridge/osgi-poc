@@ -13,7 +13,10 @@
 7. After you install the bundle the console will tell you a Bundle ID; use the ID to start the bundle:
 
         start 5
-        
+
+8. After you make changes to the bundle in Eclipse you can see the updated changes in the running Felix:
+
+        update 5
 
 # FAQ
 
