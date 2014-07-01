@@ -20,8 +20,6 @@
         <felix.configuration.version>1.8.0</felix.configuration.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
         <pax.url.version>2.1.0</pax.url.version>
-        <pax.url.mvn.version>1.3.7</pax.url.mvn.version>
-        <pax.url.wrap.version>2.1.0</pax.url.wrap.version>
     </properties>
 
     <build>
@@ -146,13 +144,13 @@
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
-            <artifactId>pax-url-mvn</artifactId>
-            <version>${pax.url.mvn.version}</version>
+            <artifactId>pax-url-aether</artifactId>
+            <version>${pax.url.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-wrap</artifactId>
-            <version>${pax.url.wrap.version}</version>
+            <version>${pax.url.version}</version>
         </dependency>
 
 
