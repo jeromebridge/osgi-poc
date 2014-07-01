@@ -34,7 +34,7 @@ You are able to creates scripts and run them in the Felix GoGo console.  You can
             http://www.knopflerfish.org/repo/bindex.xml \
             http://sling.apache.org/obr/repository.xml
 
-# Install A "Legacy" Maven Dependency As Bundle
+# Install "Legacy" Maven Dependency
 
 You can install legacy jar files and generate the bundle manifest at the time of installing it.  You can specify the directives to use to generate the bundle in the command  line or through properties file.  See the documentation <a href="https://ops4j1.jira.com/wiki/display/paxurl/Wrap+Protocol">here</a>.  Example (Run this from the Felix console):
 
@@ -56,3 +56,8 @@ First thing make sure you have META-INF/MANIFEST.MF in the directory you are poi
 
 Fragment bundles can not be started so you see this error. As soon as the host plugin 'bundle' of the fragment is started, the osgi framework will attach the fragment to it (automatically). 
 
+    org.osgi.framework.BundleException: Unresolved constraint in bundle com.your.bundl [13]: Unable to resolve 1.0: missing requirement [1.0] osgi.wiring.package; (osgi.wiring.package=com.some.dependency)
+
+This error happens even though you have installed a bundle that exposes the package you are looking for.  This is most likely due to the exported package not having a version in the manifest file or the version is not within the range of the import that is required for the bundle you are trying to deploy.
+
+OSGi DOES NOT USE the Bundle-Version to determine the version of exports.  Instead each exported package is allowed to have its own version number.
