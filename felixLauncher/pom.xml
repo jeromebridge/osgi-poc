@@ -19,6 +19,7 @@
         <felix.framework.version>4.4.0</felix.framework.version>
         <felix.configuration.version>1.8.0</felix.configuration.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
+        <pax.url.version>2.1.0</pax.url.version>
     </properties>
 
     <build>
@@ -79,7 +80,7 @@
                                     <artifactId>org.osgi.compendium</artifactId>
                                     <version>4.2.0</version>
                                 </artifactItem>
-
+        
                                 <!-- Optional -->
                                 <artifactItem>
                                     <groupId>org.slf4j</groupId>
@@ -139,7 +140,7 @@
         <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-assembly</artifactId>
-            <version>2.1.0</version>
+            <version>${pax.url.version}</version>
         </dependency>
     </dependencies>
 </project>
