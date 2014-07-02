@@ -11,6 +11,7 @@ ias mvn:org.apache.log4j/com.springsource.org.apache.log4j/1.2.16
 ias mvn:net.sourceforge.cglib/com.springsource.net.sf.cglib/2.2.0
 ias mvn:org.aopalliance/com.springsource.org.aopalliance/1.0.0
 ias mvn:org.springframework/org.springframework.aop/3.2.4.RELEASE
+
 ias mvn:org.springframework.osgi/spring-osgi-io/1.2.1
 ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
 ias mvn:org.springframework.osgi/spring-osgi-extender/1.2.1
