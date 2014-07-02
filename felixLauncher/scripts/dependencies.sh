@@ -1,7 +1,7 @@
 script_path=(new java.io.File $0) getParentFile
 source $script_path/common-commands.sh
 
-sh $script_path/install-spring-extender2.sh
+sh $script_path/install-spring.sh
 
 ias wrap:mvn:org.liquibase/liquibase-core/3.2.0\$Bundle-SymbolicName=Liquibase&Bundle-Version=3.2.0&Export-Package=liquibase.*\;version=\"3.2.0\"
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3
