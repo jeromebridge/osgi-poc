@@ -3,7 +3,8 @@ source $script_path/common-commands.sh
 
 sh $script_path/install-spring.sh
 
-ias wrap:mvn:org.liquibase/liquibase-core/3.2.0\$Bundle-SymbolicName=Liquibase&Bundle-Version=3.2.0&Export-Package=liquibase.*\;version=\"3.2.0\"
+# ias wrap:mvn:org.liquibase/liquibase-core/3.2.0\$Bundle-SymbolicName=Liquibase&Bundle-Version=3.2.0&Export-Package=liquibase.*\;version=\"3.2.0\"
+ias mvn:org.everit.osgi/org.everit.osgi.liquibase.bundle/3.1.1-v20140507
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3
 ias mvn:org.apache.commons/com.springsource.org.apache.commons.pool/1.5.3
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.junit/4.11_2
