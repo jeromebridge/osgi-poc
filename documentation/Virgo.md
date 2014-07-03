@@ -46,10 +46,6 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
     2. Add new "Java Remote Application"
     
-        : 
-        : 
-         
-        
         | Property      | Value                                            |
         | ------------- |--------------------------------------------------|
         | Project       | Can be any one of your bundles you are debugging |
