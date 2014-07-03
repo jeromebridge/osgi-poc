@@ -13,7 +13,7 @@
                 file:${karaf.data}/kar@id=kar.repository@multi, \
                 http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository
 
-     2. Set the Maven settings file to use:
+    2. Set the Maven settings file to use:
 
             org.ops4j.pax.url.mvn.settings=etc/maven-settings.xml
         
