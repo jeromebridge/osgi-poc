@@ -42,9 +42,16 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
     Virgo uses port *8000* for debugging by default.
 
     1. Open the Eclipse "Debug Configurations" window 
-    ![alt text](debug-virgo-01.png "Remote Debug Virgo Step 1")
+    ![alt text](images/debug-virgo-01.png "Remote Debug Virgo Step 1")
 
+    2. Add new "Java Remote Application"
+    
+        Project: Can be any one of your bundles you are debugging
+        Host: localhost
+        Port: 8000
+        
+        ![alt text](images/debug-virgo-02.png "Remote Debug Virgo Step 2")
 
-
-
+    3. On the *Source* tab make sure you add any other bundles that you will be debugging on the Virgo Server that you are working on in Eclipse.
+    ![alt text](images/debug-virgo-03.png "Remote Debug Virgo Step 3")
 
