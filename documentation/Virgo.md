@@ -33,7 +33,7 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 6. Install the bundle(s) you will be working on from Eclipse:
 
-        install assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
+        install -start assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
 
     Note: You will want to point to the directory that Eclipse uses to build the files for the bundle's project.
 
