@@ -1,11 +1,22 @@
 # Debug With Karaf
 
 1. Download Karaf
-2. Edit the etc/custom.properties file:
+2. Edit the *etc/org.ops4j.pax.url.mvn.cfg* file:
 
-        org.ops4j.pax.url.mvn.settings=etc/maven-settings.xml
-        org.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository
+    1. Add your repositories to the comma delimited list:
+    
+            org.ops4j.pax.url.mvn.repositories= \
+                http://repo1.maven.org/maven2@id=central, \
+                http://repository.springsource.com/maven/bundles/release@id=spring.ebr.release, \
+                http://repository.springsource.com/maven/bundles/external@id=spring.ebr.external, \
+                file:${karaf.home}/${karaf.default.repository}@id=system.repository, \
+                file:${karaf.data}/kar@id=kar.repository@multi, \
+                http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository
 
+     2. Set the Maven settings file to use:
+
+            org.ops4j.pax.url.mvn.settings=etc/maven-settings.xml
+        
 3. Add the maven-settings.xml file to the etc directory:
 
         <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
