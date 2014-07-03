@@ -3,7 +3,10 @@
 1. Run a Maven clean install for the felixLauncher one time
 2. Right click felixLauncher project and select "Run As -> Java Application"
 2. Set Main Class: *org.apache.felix.main.Main*
-3. Under Arguments Tab, set VM Arguments: *-Djava.protocol.handler.pkgs=org.ops4j.pax.url*
+3. Under Arguments Tab, set VM Arguments: 
+
+        -Djava.protocol.handler.pkgs=org.ops4j.pax.url
+        
     4. Optional, Also set any specific Maven repositories you want to point to:
             
             -Dorg.ops4j.pax.url.mvn.settings=conf/maven-settings.xml
