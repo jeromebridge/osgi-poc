@@ -46,9 +46,15 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
     2. Add new "Java Remote Application"
     
-        Project: Can be any one of your bundles you are debugging
-        Host: localhost
-        Port: 8000
+        : 
+        : 
+         
+        
+        | Property      | Value                                            |
+        | ------------- |--------------------------------------------------|
+        | Project       | Can be any one of your bundles you are debugging |
+        | Host          | localhost                                        |
+        | Port          | 8000                                             |
         
         ![alt text](images/debug-virgo-02.png "Remote Debug Virgo Step 2")
 
