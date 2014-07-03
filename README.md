@@ -66,7 +66,7 @@ This error happens even though you have installed a bundle that exposes the pack
 
 OSGi DOES NOT USE the Bundle-Version to determine the version of exports.  Instead each exported package is allowed to have its own version number.
 
-    Caused by: java.lang.ClassNotFoundException: some.thing.i.imported not found by blah.blah.bundle [23]
+    Caused by: java.lang.NoClassDefFoundError: some.thing.i.imported not found by blah.blah.bundle [23]
 
 This happens when the class is found but some of the dependencies of the class are not available in the classpath.  See <a href="http://wiki.osgi.org/wiki/What_is_the_difference_between_ClassNotFoundException_and_NoClassDefFoundError%3F">here</a> for an explanation.  The only way I can tell to resolve this issue is to look at the imports of the class throwing the error.  Kind of sucks :(
 
