@@ -4,12 +4,18 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 1. Download Virgo Tomcat distribution; Extract the folder where you want to install it
 2. Edit the configuration/osgi.console.properties file; 
-     ssh.enabled=true
+     
+        ssh.enabled=true
+
 3. Start the server
-     bin/startup.sh -Djava.protocol.handler.pkgs=org.ops4j.pax.url
+     
+        bin/startup.sh -Djava.protocol.handler.pkgs=org.ops4j.pax.url
+
 4. SSH to console
-     ssh admin@localhost -p 2402
-     password: springsource
+
+        ssh admin@localhost -p 2402
+        password: springsource
+
 5. Install PAX URL Bundles
 
          pax.url.version=2.1.0
