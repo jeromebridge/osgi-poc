@@ -39,7 +39,10 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 7. Setup Remote Debugging
 
+    Virgo uses port *8000* for debugging by default.
 
+    1. Open the Eclipse "Debug Configurations" window 
+    ![alt text](debug-virgo-01.png "Remote Debug Virgo Step 1")
 
 
 
