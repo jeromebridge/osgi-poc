@@ -9,7 +9,7 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 3. Start the server
      
-        bin/startup.sh -Djava.protocol.handler.pkgs=org.ops4j.pax.url
+        bin/startup.sh -debug -Djava.protocol.handler.pkgs=org.ops4j.pax.url
 
 4. SSH to console
 
@@ -30,3 +30,18 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
          install -start http://central.maven.org/maven2/org/ops4j/pax/url/pax-url-assembly/${pax.url.version}/pax-url-assembly-${pax.url.version}.jar
          install -start http://central.maven.org/maven2/org/ops4j/pax/url/pax-url-aether/${pax.url.version}/pax-url-aether-${pax.url.version}.jar
          # install -start http://central.maven.org/maven2/org/ops4j/pax/url/pax-url-wrap/${pax.url.version}/pax-url-wrap-${pax.url.version}.jar
+
+6. Install the bundle(s) you will be working on from Eclipse:
+
+        install assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
+
+    Note: You will want to point to the directory that Eclipse uses to build the files for the bundle's project.
+
+7. Setup Remote Debugging
+
+
+
+
+
+
+
