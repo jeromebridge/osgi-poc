@@ -15,7 +15,7 @@
 
     2. Set the Maven settings file to use:
 
-            org.ops4j.pax.url.mvn.settings=etc/maven-settings.xml
+            org.ops4j.pax.url.mvn.settings=${karaf.home}/etc/maven-settings.xml
         
 3. Add the maven-settings.xml file to the etc directory:
 
