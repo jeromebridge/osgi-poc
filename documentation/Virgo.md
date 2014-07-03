@@ -57,3 +57,13 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
     3. On the *Source* tab make sure you add any other bundles that you will be debugging on the Virgo Server that you are working on in Eclipse.
     ![alt text](images/debug-virgo-03.png "Remote Debug Virgo Step 3")
 
+8. When you make changes to any of the Eclipse projects you are running in Virgo you will need to update the bundle in Virgo while it is running.  This is true whether you are "Remote Debugging" the projects or not.
+
+        update 150
+
+    Note: You will need to find the Bundle ID(s) of your deployed bundle(s)
+    
+        ss | grep test
+        
+    That command would give me all the bundles with the word "test" in the name.
+    
