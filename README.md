@@ -66,6 +66,10 @@ This error happens even though you have installed a bundle that exposes the pack
 
 OSGi DOES NOT USE the Bundle-Version to determine the version of exports.  Instead each exported package is allowed to have its own version number.
 
+    Caused by: java.lang.ClassNotFoundException: some.thing.i.imported not found by blah.blah.bundle [23]
+
+This happens when the class is found but some of the dependencies of the class are not available in the classpath.  See <a href="http://wiki.osgi.org/wiki/What_is_the_difference_between_ClassNotFoundException_and_NoClassDefFoundError%3F">here</a> for an explanation.  The only way I can tell to resolve this issue is to look at the imports of the class throwing the error.  Kind of sucks :(
+
 ## How Do I Specify Custom Maven Settings (For Installing Dependencies)?
 
 See this <a href="#">link</a> for PAX URL documentation.  You can set the *org.ops4j.pax.url.mvn.settings* and properties in the system properties of the VM.  I tried to set this in the config.properties but it does not get picked up when I run through Eclipse.  It may be possible to set there as well depending on how you add PAX URL to your container.  I am setting this property in the example.
