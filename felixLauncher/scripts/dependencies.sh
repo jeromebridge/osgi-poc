@@ -4,6 +4,7 @@ source $script_path/common-commands.sh
 sh $script_path/install-spring.sh
 
 # Liquibase
+ias mvn:javax.transaction/com.springsource.javax.transaction/1.1.0  # Karaf Only
 ias mvn:com.pennassurancesoftware.bundles/com.pennassurancesoftware.bundles.snakeyaml/1.13-SNAPSHOT
 ias mvn:org.everit.osgi/org.everit.osgi.liquibase.bundle/3.1.1-v20140507
 

@@ -7,5 +7,8 @@ split_and_get = { var1 = tac --list; var1 = $var1 get 0; var1 = $var1 split $1; 
 ias = { install $1 | bundleNumber = split_and_get " " 2; start $bundleNumber }
 
 
-# Equinox Version
+# Equinox Version (Virgo)
 # ias = { install -start $1 }
+
+# Karaf
+# ias = { install -s $1 }
