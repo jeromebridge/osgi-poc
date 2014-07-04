@@ -1,9 +1,8 @@
 Random notes I kept while working on OSGi containers.
 
-
 # TODO:
 1. Look into using OBR (as equivelent to Karaf Feature)
-2. Run application with virgo server using PAX URL (instead of tooling)
+x Run application with virgo server using PAX URL (instead of tooling)
 3. Run application with Karaf using PAX URL
 
 # Liquibase
@@ -226,4 +225,70 @@ Documentation can be found here <a href="http://www.eclipse.org/virgo/documentat
     Note: You must start each of these bundles after installing them.  Example:
 
           start 140 141 142 143 144 145 146 147 148 149
+
+
+
+# Karaf Install
+
+1. Download Karaf
+2. Edit etc/system.properties; add the following:
+
+        java.protocol.handler.pkgs=org.ops4j.pax.url
+
+2. Start Server
+        
+        bin/karaf debug clean
+
+3. Install PAX URL
+
+	pax.url.version=2.1.0
+        install -s http://central.maven.org/maven2/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar
+        install -s http://central.maven.org/maven2/org/ops4j/base/ops4j-base-io/1.4.0/ops4j-base-io-1.4.0.jar
+        install -s http://central.maven.org/maven2/org/ops4j/pax/url/pax-url-commons/${pax.url.version}/pax-url-commons-${pax.url.version}.jar
+        install -s http://central.maven.org/maven2/org/ops4j/pax/url/pax-url-assembly/${pax.url.version}/pax-url-assembly-${pax.url.version}.jar
+
+4. Install the bundles you will be developing in Eclipse
+
+        install -s assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
+
+5. Setup Remote Debugging
+
+
+
+
+# Karaf: Yaas
+
+## Install PAX URL
+
+## Install Spring
+ias={install -s $1}
+spring.version=3.2.4.RELEASE
+gemini.blueprint.version=2.0.0.M02
+feature:install spring/${spring.version}
+feature:install spring-aspects/${spring.version}
+feature:install spring-jdbc/${spring.version}
+# feature:install gemini-blueprint # This doesn't seem to work anyway
+# This causes an error to display but it seems to deploy anyway (still looking into why error happens)
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.blueprint.version}
+
+## Install Dependencies
+## Install Eclipse Bundle
+    install -s assembly:"/home/developer/git/yet-another-admin-system/yaas-db/bin/maven/classes"
+
+
+
+
+
+
+
+
+install -s mvn:javax.transaction/com.springsource.javax.transaction/1.1.0
+
+
+2. Edit the etc/custom.properties file
+
+        org.osgi.framework.bootdelegation=org.apache.karaf.jaas.boot,sun.*,com.sun.*,javax.transaction,javax.transaction.*
+
 
