@@ -9,7 +9,7 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 3. Start the server
      
-        bin/startup.sh -debug -Djava.protocol.handler.pkgs=org.ops4j.pax.url
+        bin/startup.sh -debug -clean -Djava.protocol.handler.pkgs=org.ops4j.pax.url
 
 4. SSH to console
 

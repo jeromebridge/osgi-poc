@@ -41,7 +41,11 @@ You are able to creates scripts and run them in the Felix GoGo console.  You can
             http://www.knopflerfish.org/repo/bindex.xml \
             http://sling.apache.org/obr/repository.xml
 
-# Install "Legacy" Maven Dependency
+# Add OBR Repository In Console
+
+        obr:repos add file:///home/developer/.m2/repository/repository.xml
+
+# Wrap "Legacy" Maven Dependency
 
 You can install legacy jar files and generate the bundle manifest at the time of installing it.  You can specify the directives to use to generate the bundle in the command  line or through properties file.  See the documentation <a href="https://ops4j1.jira.com/wiki/display/paxurl/Wrap+Protocol">here</a>.  Example (Run this from the Felix console):
 
