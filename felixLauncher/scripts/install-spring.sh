@@ -34,6 +34,11 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-tx/${
 # Spring JDBC
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-jdbc/${spring.version}
 
+# Spring Web
+ias mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
+ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-web/${spring.version}
+ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmvc/${spring.version}
+
 # Gemini Blueprint
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}

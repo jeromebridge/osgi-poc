@@ -4,7 +4,8 @@
 split_and_get = { var1 = tac --list; var1 = $var1 get 0; var1 = $var1 split $1; ($var1) | var1 = tac --list; var1 = $var1 get $2; $var1 }
 
 # Param 1: Bundle URL
-ias = { install $1 | bundleNumber = split_and_get " " 2; start $bundleNumber }
+# ias = { install $1 | bundleNumber = split_and_get " " 2; start $bundleNumber }
+ias = { install $1 | grep Bundle | bundleNumber = split_and_get " " 2; start $bundleNumber }
 
 
 # Equinox Version (Virgo)
