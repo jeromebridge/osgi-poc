@@ -10,7 +10,7 @@
     4. Optional, Also set any specific Maven repositories you want to point to:
             
             -Dorg.ops4j.pax.url.mvn.settings=conf/maven-settings.xml
-            -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository
+            -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository,http://repo.pennassurancesoftware.com/content/groups/public-snapshots@id=internal-nexus-repository@snapshots
 4. Click run
 5. The Felix console should show in the Eclipse Console
 6. Add the test bundle from Eclipse into the running Felix container with the following command:
