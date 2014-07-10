@@ -10,10 +10,11 @@ cglib.version=3.1_1
 karaf.version=3.0.1
 gemini.blueprint.version=2.0.0.M02
 
-# Commons - Logging
-install mvn:org.slf4j/com.springsource.slf4j.api/1.6.1
-install mvn:org.slf4j/com.springsource.slf4j.simple/1.6.1
-ias mvn:org.slf4j/com.springsource.slf4j.org.apache.commons.logging/1.6.1
+# SLF4j
+sh $script_path/install-slf4j.sh
+
+# PAX Web
+sh scripts/install-pax-web.sh
 
 # Spring
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${aopalliance.bundle.version}
@@ -35,9 +36,14 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-tx/${
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-jdbc/${spring.version}
 
 # Spring Web
-ias mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
+# ias mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-web/${spring.version}
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmvc/${spring.version}
+
+# Spring OSGi Support
+ias mvn:org.springframework.osgi/spring-osgi-io/1.2.1
+ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
+ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
 
 # Gemini Blueprint
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
