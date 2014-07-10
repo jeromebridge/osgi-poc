@@ -1,6 +1,9 @@
 # Note: Based of of Karaf Feature
 
-script_path=(new java.io.File $0) getParentFile
+# script_path=(new java.io.File $0) getParentFile
+# source $script_path/common-commands.sh
+
+script_path=/Users/Administrator/git/osgi-poc/felixLauncher/scripts
 source $script_path/common-commands.sh
 
 aopalliance.bundle.version=1.0_6
@@ -15,6 +18,11 @@ sh $script_path/install-slf4j.sh
 
 # PAX Web
 sh scripts/install-pax-web.sh
+
+# AspectJ
+# ias mvn:org.aspectj/org.aspectj-library/1.6.8.RELEASE
+ias mvn:org.aspectj/com.springsource.org.aspectj.weaver/1.7.2.RELEASE
+ias mvn:org.aspectj/com.springsource.org.aspectj.runtime/1.7.2.RELEASE
 
 # Spring
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${aopalliance.bundle.version}
@@ -41,12 +49,12 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-web/$
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmvc/${spring.version}
 
 # Spring OSGi Support
-ias mvn:org.springframework.osgi/spring-osgi-io/1.2.1
-ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
-ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
+# ias mvn:org.springframework.osgi/spring-osgi-io/1.2.1
+# ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
+# ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
 
 # Gemini Blueprint
-ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
-ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
-ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.blueprint.version}
+ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
+ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
+ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.blueprint.version}
 

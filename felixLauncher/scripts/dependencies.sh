@@ -1,5 +1,9 @@
-script_path=(new java.io.File $0) getParentFile
+# script_path=(new java.io.File $0) getParentFile
+# source $script_path/common-commands.sh
+
+script_path=/Users/Administrator/git/osgi-poc/felixLauncher/scripts
 source $script_path/common-commands.sh
+
 
 sh $script_path/install-spring.sh
 sh scripts/install-pax-web.sh

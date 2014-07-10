@@ -1,7 +1,10 @@
-script_path=(new java.io.File $0) getParentFile
+# script_path=(new java.io.File $0) getParentFile
+# source $script_path/common-commands.sh
+
+script_path=/Users/Administrator/git/osgi-poc/felixLauncher/scripts
 source $script_path/common-commands.sh
 
-# PAX Web (Jetty 8)
+# PAX Web (Jetty 8)	
 sh scripts/install-slf4j.sh
 
 ias mvn:org.ow2.asm/asm/5.0.3
