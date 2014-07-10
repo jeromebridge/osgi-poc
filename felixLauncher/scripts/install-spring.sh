@@ -40,6 +40,11 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-jdbc/
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-web/${spring.version}
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmvc/${spring.version}
 
+# Spring OSGi Support
+ias mvn:org.springframework.osgi/spring-osgi-io/1.2.1
+ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
+ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
+
 # Gemini Blueprint
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
