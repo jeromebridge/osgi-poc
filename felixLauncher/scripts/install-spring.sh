@@ -10,10 +10,8 @@ cglib.version=3.1_1
 karaf.version=3.0.1
 gemini.blueprint.version=2.0.0.M02
 
-# Commons - Logging
-install mvn:org.slf4j/com.springsource.slf4j.api/1.6.1
-install mvn:org.slf4j/com.springsource.slf4j.simple/1.6.1
-ias mvn:org.slf4j/com.springsource.slf4j.org.apache.commons.logging/1.6.1
+# SLF4j
+sh $script_path/install-slf4j.sh
 
 # Spring
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${aopalliance.bundle.version}

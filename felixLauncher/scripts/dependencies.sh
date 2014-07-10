@@ -33,7 +33,22 @@ ias mvn:javax.persistence/com.springsource.javax.persistence/2.0.0
 
 # Yaas Ws
 # ias mvn:org.eclipse.jetty.orbit/javax.servlet/3.0.0.v201112011016
-ias obr:org.apache.felix.http.jetty
+
+# ias obr:org.apache.felix.http.api
+# ias obr:org.apache.felix.http.base
+# ias obr:org.apache.felix.http.bridge
+# ias obr:org.apache.felix.http.bundle
+# ias obr:org.apache.felix.http.proxy
+# ias obr:org.apache.felix.http.jetty
+
+
+
+# Jetty 8
+sh scripts/install-slf4j.sh
+ias mvn:org.ops4j.pax.web/pax-web-jetty-bundle/3.1.1
+
+
+
 ias mvn:commons-io/commons-io/2.4
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-collections/3.2.1_3
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-lang/2.4_6
