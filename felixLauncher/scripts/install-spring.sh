@@ -13,6 +13,9 @@ gemini.blueprint.version=2.0.0.M02
 # SLF4j
 sh $script_path/install-slf4j.sh
 
+# PAX Web
+sh scripts/install-pax-web.sh
+
 # Spring
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${aopalliance.bundle.version}
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-core/${spring.version}
@@ -33,7 +36,7 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-tx/${
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-jdbc/${spring.version}
 
 # Spring Web
-ias mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
+# ias mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-web/${spring.version}
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmvc/${spring.version}
 
