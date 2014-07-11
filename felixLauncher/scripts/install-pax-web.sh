@@ -1,8 +1,7 @@
-# script_path=(new java.io.File $0) getParentFile
-# source $script_path/common-commands.sh
-
-script_path=/Users/Administrator/git/osgi-poc/felixLauncher/scripts
-source $script_path/common-commands.sh
+script_path=(new java.io.File $0) getParentFile
+script_path="$script_path"
+script_path=$script_path replaceAll "\\\\" "/"
+source "$script_path/common-commands.sh"
 
 # PAX Web (Jetty 8)	
 sh scripts/install-slf4j.sh

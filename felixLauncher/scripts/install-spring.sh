@@ -1,10 +1,7 @@
-# Note: Based of of Karaf Feature
-
-# script_path=(new java.io.File $0) getParentFile
-# source $script_path/common-commands.sh
-
-script_path=/Users/Administrator/git/osgi-poc/felixLauncher/scripts
-source $script_path/common-commands.sh
+script_path=(new java.io.File $0) getParentFile
+script_path="$script_path"
+script_path=$script_path replaceAll "\\\\" "/"
+source "$script_path/common-commands.sh"
 
 aopalliance.bundle.version=1.0_6
 spring.version=3.2.8.RELEASE_1
@@ -54,7 +51,19 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmv
 # ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
 
 # Gemini Blueprint
-ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
-ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
-ias2 mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.blueprint.version}
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
+ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.blueprint.version}
 
+
+# ias mvn:org.eclipse.virgo.util/org.eclipse.virgo.util.common/3.5.0.RELEASE
+# ias mvn:org.eclipse.virgo.util/org.eclipse.virgo.util.math/3.5.0.RELEASE
+# ias mvn:org.eclipse.virgo.util/org.eclipse.virgo.util.io/3.5.0.RELEASE
+# ias mvn:javax.annotation/javax.annotation/1.1.0.v201105051105
+# ias mvn:javax.xml.rpc/com.springsource.javax.xml.rpc/1.1.0
+# ias mvn:javax.ejb/com.springsource.javax.ejb/3.0.0
+
+# ias mvn:org.apache.catalina/com.springsource.org.apache.catalina/7.0.26
+# ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.tomcat/1.2.0.M01
+# ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.core/1.2.0.M01
+# ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.extender/1.2.0.M01
