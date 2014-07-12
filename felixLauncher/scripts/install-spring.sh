@@ -21,6 +21,13 @@ sh scripts/install-pax-web.sh
 ias mvn:org.aspectj/com.springsource.org.aspectj.weaver/1.7.2.RELEASE
 ias mvn:org.aspectj/com.springsource.org.aspectj.runtime/1.7.2.RELEASE
 
+# ASM
+ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.asm/3.3.1_1
+
+# CGLIB
+# ias mvn:net.sourceforge.cglib/com.springsource.net.sf.cglib/2.1.3
+ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.cglib/$cglib.version
+
 # Spring
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aopalliance/${aopalliance.bundle.version}
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-core/${spring.version}
