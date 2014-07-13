@@ -8,7 +8,9 @@ spring.version=3.2.8.RELEASE_1
 spring.osgi.version=1.2.1
 cglib.version=3.1_1
 karaf.version=3.0.1
-gemini.blueprint.version=2.0.0.M02
+# gemini.blueprint.version=2.0.0.M02
+gemini.blueprint.version=1.0.2.RELEASE
+
 
 # SLF4j
 sh $script_path/install-slf4j.sh
@@ -57,6 +59,7 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-webmv
 # ias mvn:org.springframework.osgi/spring-osgi-core/1.2.1
 # ias mvn:org.springframework.osgi/spring-osgi-web/1.2.1
 
+
 # Gemini Blueprint
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.io/${gemini.blueprint.version}
 ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.core/${gemini.blueprint.version}
@@ -74,3 +77,20 @@ ias mvn:org.eclipse.gemini/org.eclipse.gemini.blueprint.extender/${gemini.bluepr
 # ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.tomcat/1.2.0.M01
 # ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.core/1.2.0.M01
 # ias mvn:org.eclipse.gemini.web/org.eclipse.gemini.web.extender/1.2.0.M01
+
+
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.web/org.eclipse.virgo.web.core/3.6.2.RELEASE/org.eclipse.virgo.web.core-3.6.2.RELEASE.jar
+
+# Virgo DM Support
+ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.medic/org.eclipse.virgo.medic/3.6.2.RELEASE/org.eclipse.virgo.medic-3.6.2.RELEASE.jar
+ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.web/org.eclipse.virgo.web.dm/3.6.2.RELEASE/org.eclipse.virgo.web.dm-3.6.2.RELEASE.jar
+
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.common/3.6.2.RELEASE/org.eclipse.virgo.util.common-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.math/3.6.2.RELEASE/org.eclipse.virgo.util.math-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.io/3.6.2.RELEASE/org.eclipse.virgo.util.io-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.osgi/3.6.2.RELEASE/org.eclipse.virgo.util.osgi-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.parser.manifest/3.6.2.RELEASE/org.eclipse.virgo.util.parser.manifest-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.util/org.eclipse.virgo.util.osgi.manifest/3.6.2.RELEASE/org.eclipse.virgo.util.osgi.manifest-3.6.2.RELEASE.jar
+# ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.gemini/org.eclipse.gemini.web.core/2.2.3.RELEASE/org.eclipse.gemini.web.core-2.2.3.RELEASE.jar
+
+
