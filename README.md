@@ -86,4 +86,16 @@ See this <a href="#">link</a> for PAX URL documentation.  You can set the *org.o
     -Dorg.ops4j.pax.url.mvn.settings=conf/maven-settings.xml
     -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository,http://repository.ops4j.org/maven2/
 
+## I get the error  Unresolved constraint in bundle for "sun.misc"; where do I get that?
 
+This is a package supplied by the JRE and is not a separate bundle.  OSGi does not expose this package by default however and you must specify a system property to tell it to do so:
+
+    org.osgi.framework.system.packages.extra=sun.misc
+    
+I found this <a href="http://stackoverflow.com/questions/8727054/how-to-overcome-missing-optionally-imported-packageissue-in-osgi">link</a> with the answer.
+
+Later on I ran into other errors with different sun.* packages.  I had to set a different property to get Restlet to install on Felix:
+
+    org.osgi.framework.bootdelegation=sun.*,com.sun.*
+    
+I found some description of this <a href="http://www.manning-sandbox.com/thread.jspa?threadID=38396">here</a>
