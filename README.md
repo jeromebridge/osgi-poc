@@ -93,3 +93,9 @@ This is a package supplied by the JRE and is not a separate bundle.  OSGi does n
     org.osgi.framework.system.packages.extra=sun.misc
     
 I found this <a href="http://stackoverflow.com/questions/8727054/how-to-overcome-missing-optionally-imported-packageissue-in-osgi">link</a> with the answer.
+
+Later on I ran into other errors with different sun.* packages.  I had to set a different property to get Restlet to install on Felix:
+
+    org.osgi.framework.bootdelegation=sun.*,com.sun.*
+    
+I found some description of this <a href="http://www.manning-sandbox.com/thread.jspa?threadID=38396">here</a>
