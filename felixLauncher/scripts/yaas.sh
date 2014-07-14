@@ -3,8 +3,9 @@ script_path="$script_path"
 script_path=$script_path replaceAll "\\\\" "/"
 source "$script_path/common-commands.sh"
 
-# workspace_path=/home/developer/git/yet-another-admin-system
-workspace_path=/Users/Administrator/git/yet-another-admin-system
+# Detect OS Here
+workspace_path=/home/developer/git/yet-another-admin-system
+# workspace_path=/Users/Administrator/git/yet-another-admin-system
 # workspace_path=( cd ) getParentFile
 # workspace_path="$workspace_path"
 # workspace_path=$workspace_path replaceAll "\\\\" "/"

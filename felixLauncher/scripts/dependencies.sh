@@ -12,6 +12,12 @@ sh scripts/install-pax-web.sh
 ias mvn:com.pennassurancesoftware.bundles/com.pennassurancesoftware.bundles.snakeyaml/1.13-SNAPSHOT
 ias mvn:org.everit.osgi/org.everit.osgi.liquibase.bundle/3.1.1-v20140507
 
+# Restlet
+ias mvn:org.restlet.osgi/org.restlet/2.2.1
+ias mvn:org.restlet.osgi/org.restlet.ext.jackson/2.2.1
+ias mvn:org.restlet.osgi/org.restlet.ext.osgi/2.2.1
+ias mvn:org.restlet.osgi/org.restlet.ext.servlet/2.2.1
+
 # Yaas Commons
 ias mvn:org.apache.commons/commons-lang3/3.1
 ias mvn:javax.xml.stream/com.springsource.javax.xml.stream/1.0.1
