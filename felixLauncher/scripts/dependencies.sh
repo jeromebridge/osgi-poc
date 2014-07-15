@@ -18,6 +18,8 @@ ias mvn:org.restlet.osgi/org.restlet.ext.jackson/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.osgi/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.servlet/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.jaxrs/2.2.1
+ias mvn:javax.ws.rs/jsr311-api/1.1.1
+
 
 # Yaas Commons
 ias mvn:org.apache.commons/commons-lang3/3.1
