@@ -9,9 +9,9 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 3. Create the file configuration/maven-settings.xml in extracted folder with the following contents:
 
-        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-    http://maven.apache.org/xsd/settings-1.0.0.xsd">
-            <servers>
+        <?xml version="1.0" encoding="UTF-8"?>
+        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"> 
+            <servers> 
                 <server>
                     <id>internal-nexus-repository</id>
                     <username>oss</username>
