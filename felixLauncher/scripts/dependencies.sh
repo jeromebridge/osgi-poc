@@ -18,6 +18,7 @@ ias mvn:org.restlet.osgi/org.restlet.ext.jackson/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.osgi/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.servlet/2.2.1
 ias mvn:org.restlet.osgi/org.restlet.ext.jaxrs/2.2.1
+ias mvn:org.restlet.osgi/org.restlet.ext.jaxb/2.2.1
 ias mvn:javax.ws.rs/jsr311-api/1.1.1
 
 
@@ -27,6 +28,9 @@ ias mvn:javax.xml.stream/com.springsource.javax.xml.stream/1.0.1
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.8.3_2
 
+# Yaas Db
+ias mvn:com.google.guava/guava/12.0.1
+ias mvn:org.apache.log4j/com.springsource.org.apache.log4j/1.2.16
 
 # Yaas Dependencies
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3

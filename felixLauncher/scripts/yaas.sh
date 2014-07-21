@@ -16,6 +16,6 @@ sh $script_path/dependencies.sh
 ias assembly:"${workspace_path}/yaas-commons/bin/maven/classes"
 ias assembly:"${workspace_path}/yaas-configuration/bin/maven/classes"
 ias assembly:"${workspace_path}/yaas-db/bin/maven/classes"
-ias assembly:"${workspace_path}/yaas-policy/bin/maven/classes"
+# ias assembly:"${workspace_path}/yaas-core/bin/maven/classes"
 ias assembly:"${workspace_path}/yaas-policy/bin/maven/classes"
 ias assembly:"${workspace_path}/yaas-ws/bin/maven/classes"
