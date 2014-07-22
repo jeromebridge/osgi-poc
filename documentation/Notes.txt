@@ -3,7 +3,7 @@ Random notes I kept while working on OSGi containers.
 # TODO:
 1. Look into using OBR (as equivelent to Karaf Feature)
 x Run application with virgo server using PAX URL (instead of tooling)
-3. Run application with Karaf using PAX URL
+x Run application with Karaf using PAX URL
 
 # Liquibase
 install mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-collections/3.2.1_3
@@ -25,6 +25,7 @@ install obr:org.apache.felix.webconsole
 install obr:org.apache.felix.http.jetty
 
 install assembly:"/home/developer/git/osgi-poc/test.commands/target/classes"
+install assembly:"/home/developer/git/osgi-poc/test.web/target/classes"
 
 
 # install obr:"Apache Felix Shell Service"
@@ -35,6 +36,7 @@ install assembly:"/home/developer/git/osgi-poc/test.bundle/target/classes"
 
 
 install assembly:"/home/developer/git/yet-another-admin-system/yaas-commons/bin/maven/classes"
+install assembly:"/home/developer/git/yet-another-admin-system/yaas-configuration/bin/maven/classes"
 install assembly:"/home/developer/git/yet-another-admin-system/yaas-db/bin/maven/classes"
 install assembly:"/home/developer/git/yet-another-admin-system/yaas-policy/bin/maven/classes"
 
@@ -292,3 +294,248 @@ install -s mvn:javax.transaction/com.springsource.javax.transaction/1.1.0
         org.osgi.framework.bootdelegation=org.apache.karaf.jaas.boot,sun.*,com.sun.*,javax.transaction,javax.transaction.*
 
 
+
+
+;version="[1.0.1,1.3.4]"
+
+
+
+
+
+<repository>
+			<id>com.springsource.repository.bundles.snapshot</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Snapshot</name>
+			<url>http://repository.springsource.com/maven/bundles/snapshot</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundle.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundle.milestone</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Milestones</name>
+			<url>http://repository.springsource.com/maven/bundles/milestone</url>
+		</repository>
+
+		<repository>
+			<id>com.springsource.repository.libraries.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Library Releases</name>
+			<url>http://repository.springsource.com/maven/libraries/release</url>
+		</repository>
+
+
+
+org.eclipse.virgo.web.dm;version="[3.0.0, 4.0.0)",
+
+
+<Import-Bundle>
+org.eclipse.persistence.jpa;version="[2.4.0,3.0)",
+org.eclipse.persistence.core;version="[2.4.0,3.0)",
+org.eclipse.persistence.jpa.jpql;version="[2.0.0.v20120608-r11652,2.0.0.v20120608-r11652]",
+org.eclipse.persistence.antlr;version="[3.2.0.v201206041011,3.2.0.v201206041011]",
+org.eclipse.persistence.asm;version="[3.3.1.v201206041142,3.3.1.v201206041142]"
+</Import-Bundle>
+
+
+
+Virgo Dependencies
+
+install -start mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.8.3_2
+install -start mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5
+install -start mvn:org.apache.commons/commons-lang3/3.1
+install -start mvn:org.eclipse.persistence/javax.persistence/2.0.4.v201112161009
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.4.0
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.asm/3.3.1.v201206041142
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.4.0
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.transaction&version=3.1.0.RELEASE&type=binary
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.jdbc&version=3.1.0.RELEASE&type=binary
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.orm&version=3.1.0.RELEASE&type=binary
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.aspects&version=3.1.0.RELEASE&type=binary
+# install -start mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
+install -start mvn:javax.servlet/com.springsource.javax.servlet/2.5.0
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.web&version=3.1.0.RELEASE&type=binary
+
+
+
+
+org.springframework.beans.factory;version="[3.0, 3.5)",
+org.springframework.beans.factory.annotation;version="[3.0, 3.5)",
+org.springframework.context.annotation;version="[3.0, 3.5)",
+org.springframework.stereotype;version="[3.0, 3.5)",
+org.springframework.context.weaving;version="[3.0,3.5)",
+org.springframework.transaction.aspectj;version="[3.0,3.5)",
+org.springframework.jndi,
+org.springframework.dao,
+org.springframework.jdbc.core.namedparam,
+org.springframework.transaction,							
+
+javax.sql;version="0",
+javax.persistence;version="[2.0.4,2.0.4]",
+javax.persistence.criteria;version="[2.0.4,2.0.4]",
+
+liquibase.integration.spring;version="[3.2.0, 3.5.0)",
+org.apache.commons.dbcp.*,
+org.postgresql;version="[8.3.604, 8.3.604]",
+org.junit.experimental.theories,
+org.slf4j,
+org.aspectj.lang,
+org.aspectj.runtime.reflect; version="[1.6.12.RELEASE,1.6.12.RELEASE]"
+
+
+
+
+
+<Import-Package>
+							org.springframework.beans.factory;version="[3.0, 3.5)",
+							org.springframework.beans.factory.annotation;version="[3.0, 3.5)",
+							org.springframework.context.annotation;version="[3.0, 3.5)",
+							org.springframework.stereotype;version="[3.0, 3.5)",
+							org.springframework.transaction.annotation;version="[3.0, 3.5)",
+							org.springframework.orm.jpa,
+							org.springframework.orm.jpa.vendor,
+							org.springframework.dao.annotation,
+							org.springframework.context.weaving;version="[3.0,3.5)",
+							org.springframework.transaction.aspectj;version="[3.0,3.5)",
+
+							javax.sql;version="0",
+							javax.persistence;version="[2.0.4,2.0.4]",
+							javax.persistence.criteria;version="[2.0.4,2.0.4]",
+							javax.xml.bind.annotation,
+
+							org.aspectj.lang,
+							org.aspectj.runtime.reflect; version="[1.6.12.RELEASE,1.6.12.RELEASE]",
+							org.slf4j,
+
+							com.yaas.db.jpa; version="[1.0.0, 1.0.0]",
+							com.yaas.db.api; version="[1.0.0, 1.0.0]",
+							com.yaas.db.nullimpl; version="[1.0.0, 1.0.0]",
+							com.yaas.core.api; version="[1.0.0, 1.0.0]",
+							com.yaas.db.unitofwork; version="[1.0.0, 1.0.0]",
+						</Import-Package>
+						<Import-Library>
+							org.springframework.spring;version="[3.1.0.RELEASE,3.2.5.RELEASE]"</Import-Library>
+
+						<Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+
+						<Import-Bundle>
+							org.eclipse.persistence.jpa;version="[2.4.0.v20120608-r11652,2.4.0.v20120608-r11652]",
+							org.eclipse.persistence.core;version="[2.4.0.v20120608-r11652,2.4.0.v20120608-r11652]",
+							org.eclipse.persistence.jpa.jpql;version="[2.0.0.v20120608-r11652,2.0.0.v20120608-r11652]",
+							org.eclipse.persistence.antlr;version="[3.2.0.v201206041011,3.2.0.v201206041011]",
+							org.eclipse.persistence.asm;version="[3.3.1.v201206041142,3.3.1.v201206041142]"
+						</Import-Bundle>
+
+
+
+<Import-Package>
+							org.springframework.beans.factory;version="[3.0, 3.5)",
+							org.springframework.beans.factory.annotation;version="[3.0, 3.5)",
+							org.springframework.context.annotation;version="[3.0, 3.5)",
+							org.springframework.stereotype,
+							org.springframework.web.context;version="[3.0, 3.5)",
+							org.springframework.beans.factory.aspectj,
+							org.springframework.http,
+							org.springframework.web.servlet,
+							org.springframework.util,
+							org.springframework.web.bind.annotation,
+
+							org.eclipse.virgo.web.dm;version="[3.0.0, 4.0.0)",
+							org.apache.commons.io;version="[1.4.0,1.5.0]",
+							org.apache.commons.collections; version="[3.2.0,4.0.0)",
+							org.aspectj.lang,
+							org.slf4j,
+							org.aspectj.runtime.reflect,
+							org.testng.annotations,
+
+							javax.servlet.http,
+							javax.sql,
+							javax.servlet,
+
+							com.yaas.commons.util;version="[1.0.0,1.0.0]",
+							com.yaas.policy;version="[1.0.0,1.0.0]",
+							com.yaas.policy.api;version="[1.0.0,1.0.0]",
+							com.yaas.core.api;version="[1.0.0,1.0.0]",
+						</Import-Package>
+						<Export-Package></Export-Package>
+						<Import-Bundle>
+							org.restlet,
+							org.restlet.ext.xml,
+							org.restlet.ext.servlet,
+							org.restlet.ext.jaxrs,
+							javax.ws.rs.jsr311-api,
+							org.restlet.ext.jaxb
+						</Import-Bundle>
+
+
+<Bundle-ClassPath>.</Bundle-ClassPath>
+<Bundle-Activator>com.yaas.ws.internal.Activator</Bundle-Activator>
+
+
+
+
+*,
+                            org.eclipse.virgo.web.dm,
+                            org.springframework.context.annotation,
+                            javax.servlet.http,
+                            javax.sql
+
+
+
+com.yaas.policy;version="[1.0,2)",
+ com.yaas.policy.api;version="[1.0,2)",
+ javax.servlet;version="[3.0,4)",
+ javax.servlet.http;version="[3.0,4)",
+ javax.sql,
+ javax.ws.rs;version="[1.1,2)",
+ javax.ws.rs.core;version="[1.1,2)",
+ javax.xml.bind.annotation,
+ javax.xml.bind.annotation.adapters,
+ org.apache.commons.beanutils;version="[1.8,2)",
+ org.aspectj.lang;version="[1.6,2)",
+ org.aspectj.lang.reflect;version="[1.6,2)",
+ org.aspectj.runtime.reflect;version="[1.6,2)",
+ org.eclipse.virgo.web.dm,
+ org.osgi.framework;version="[1.5,2)",
+ org.restlet,
+ org.restlet.data,
+ org.restlet.ext.jaxb,
+ org.restlet.ext.jaxrs,
+ org.restlet.ext.servlet,
+ org.restlet.representation,
+ org.restlet.service,
+ org.slf4j,
+ org.springframework.beans.factory.annotation,
+ org.springframework.beans.factory.aspectj,
+ org.springframework.beans.factory.config,
+ org.springframework.context.annotation,
+ org.springframework.util,
+ org.springframework.web.context,
+ org.springframework.web.context.support
+
+rnel/org.eclipse.virgo.kernel.deployer/3.6.2.RELEASE/org.eclipse.virgo.kernel.deployer-3.6.2.RELEASE.jar
+http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.nano/org.eclipse.virgo.nano.deployer.api/3.6.2.RELEASE/org.eclipse.virgo.nano.deployer.api-3.6.2.RELEASE.jar
+
+
+
+install mvn:org.eclipse.rap/org.eclipse.rap.rwt/2.0.0
+# install mvn:com.eclipsesource.virgo.examples/com.eclipsesource.virgo.examples.parent/1.0.0.BUILD-SNAPSHOT
+install file:///home/developer/git/rap-virgo-examples/com.eclipsesource.virgo.examples.rap.webbundle/target/com.eclipsesource.virgo.examples.rap.webbundle-1.0.0.BUILD-SNAPSHOT.jar
+
+install file:///home/developer/Downloads/samples-3.0.0.RC1/bin/org.eclipse.virgo.samples.no.spring.jar
+
+
+vsh:install assembly:"/home/developer/git/osgi-poc/test.web/target/classes"
+install -start file:///home/developer/git/osgi-poc/test.web/target/test.web-1.0.0-SNAPSHOT.jar
+install -start file:///home/developer/git/osgi-poc/test.virgo.deployer/target/test.virgo.deployer-1.0.0-SNAPSHOT.jar
+
+install -start assembly:"/home/developer/git/osgi-poc/test.virgo.deployer/target/classes"
+
+
+
+sh /home/developer/git/osgi-poc/felixLauncher/scripts/virgo-setup.sh
