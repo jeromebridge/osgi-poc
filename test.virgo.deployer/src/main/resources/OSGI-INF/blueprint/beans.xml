@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+    <reference id="deployer" interface="org.eclipse.virgo.nano.deployer.api.core.ApplicationDeployer" />
+
+    <bean id="deployerCommandProvider" class="test.virgo.deployer.command.DeployerCommandProvider">
+        <property name="deployer" ref="deployer" />
+    </bean>
+
+    <service ref="deployerCommandProvider" auto-export="all-classes">
+        <service-properties>
+            <entry key="osgi.command.scope">
+                <value>test</value>
+            </entry>
+            <entry key="osgi.command.function">
+                <array value-type="java.lang.String">
+                    <value>deploy</value>
+                </array>
+            </entry>
+        </service-properties>
+    </service>
+
+</blueprint>

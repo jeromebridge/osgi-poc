@@ -55,9 +55,18 @@
                             test.virgo.deployer.internal.*
                         </Private-Package>
                         <Import-Package>
+                            !org.osgi.service.blueprint,
+                            !javax.microedition.io,
+                            !javax.servlet*,
+                            org.osgi.framework;version="[0,2.0)",
+                            org.eclipse.gemini.blueprint*;version="[1.0.2,2.0.0)",
+                            org.eclipse.virgo*;version="[3.6.3,3.7)",
                             *
                         </Import-Package>
-                        <Export-Package></Export-Package>
+                        <Export-Package>
+                            test.virgo.deployer*,
+                            !test.virgo.deployer.internal
+                        </Export-Package>
                         <Embed-Transitive>false</Embed-Transitive>
                         <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>
                         <Web-ContextPath>test</Web-ContextPath>
@@ -86,13 +95,13 @@
         <dependency>
             <groupId>org.eclipse.virgo.nano</groupId>
             <artifactId>org.eclipse.virgo.nano.deployer.api</artifactId>
-            <version>3.6.3.RELEASE</version>
+            <version>[3.6.0.RELEASE,)</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.virgo.kernel</groupId>
             <artifactId>org.eclipse.virgo.kernel.deployer</artifactId>
-            <version>3.6.3.RELEASE</version>
+            <version>[3.6.0.RELEASE,)</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
