@@ -2,9 +2,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dk.sorokin.maksim</groupId>
-    <artifactId>test.web</artifactId>
+    <artifactId>test.virgo.deployer</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Test Web Bundle</name>
+    <name>Test Virgo Deployer Bundle</name>
     <packaging>bundle</packaging>
 
     <properties>
@@ -12,6 +12,31 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <repositories>
+        <repository>
+            <name>Internal Nexus Repository</name>
+            <id>internal-nexus-repository</id>
+            <url>http://repo.pennassurancesoftware.com/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <name>Internal Nexus Snapshot Repository</name>
+            <id>internal-nexus-snapshot-repository</id>
+            <url>http://repo.pennassurancesoftware.com/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -25,21 +50,14 @@
                         <Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${pom.name}</Bundle-Name>
                         <Bundle-Version>${pom.version}</Bundle-Version>
+                        <Bundle-Activator>test.virgo.deployer.internal.Activator</Bundle-Activator>
                         <Private-Package>
-
+                            test.virgo.deployer.internal.*
                         </Private-Package>
                         <Import-Package>
-                            *,
-                            javax.servlet;version="[3.0,4.0)",
-                            javax.servlet.http;version="[3.0,4.0)",
-                            org.osgi.framework,
-                            org.osgi.service.http,
-                            org.osgi.util.tracker
+                            *
                         </Import-Package>
                         <Export-Package></Export-Package>
-                        <Bundle-Classpath>
-                            .,WEB-INF/classes
-                        </Bundle-Classpath>
                         <Embed-Transitive>false</Embed-Transitive>
                         <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>
                         <Web-ContextPath>test</Web-ContextPath>
@@ -52,19 +70,30 @@
     <dependencies>
         <!-- OSGi -->
         <dependency>
-            <groupId>org.apache.felix</groupId>
+            <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>1.4.0</version>
+            <version>4.2.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Servlet API -->
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <version>4.2.0</version>
             <scope>provided</scope>
         </dependency>
 
+        <!-- Virgo Deployer -->
+        <dependency>
+            <groupId>org.eclipse.virgo.nano</groupId>
+            <artifactId>org.eclipse.virgo.nano.deployer.api</artifactId>
+            <version>3.6.3.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.virgo.kernel</groupId>
+            <artifactId>org.eclipse.virgo.kernel.deployer</artifactId>
+            <version>3.6.3.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
