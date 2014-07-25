@@ -5,8 +5,12 @@ import java.net.URI;
 import org.eclipse.virgo.nano.deployer.api.core.DeployUriNormaliser;
 import org.eclipse.virgo.nano.deployer.api.core.DeploymentException;
 
-class CompoundDeployUriNormaliser implements DeployUriNormaliser {
+public class CompoundDeployUriNormaliser implements DeployUriNormaliser {
    private final DeployUriNormaliser[] normalisers;
+
+   public CompoundDeployUriNormaliser() {
+      normalisers = new DeployUriNormaliser[]{};
+   }
 
    public CompoundDeployUriNormaliser( DeployUriNormaliser... normalisers ) {
       this.normalisers = normalisers.clone();

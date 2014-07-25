@@ -50,7 +50,6 @@
                         <Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${pom.name}</Bundle-Name>
                         <Bundle-Version>${pom.version}</Bundle-Version>
-                        <Bundle-Activator>test.virgo.deployer.internal.Activator</Bundle-Activator>
                         <Private-Package>
                             test.virgo.deployer.internal.*
                         </Private-Package>
@@ -101,6 +100,24 @@
         <dependency>
             <groupId>org.eclipse.virgo.kernel</groupId>
             <artifactId>org.eclipse.virgo.kernel.deployer</artifactId>
+            <version>[3.6.0.RELEASE,)</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.virgo.nano</groupId>
+            <artifactId>org.eclipse.virgo.nano.core</artifactId>
+            <version>[3.6.0.RELEASE,)</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.virgo</groupId>
+            <artifactId>org.eclipse.virgo.medic</artifactId>
+            <version>[3.6.0.RELEASE,)</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.virgo.util</groupId>
+            <artifactId>org.eclipse.virgo.util.common</artifactId>
             <version>[3.6.0.RELEASE,)</version>
             <scope>provided</scope>
         </dependency>
