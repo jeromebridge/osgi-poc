@@ -81,8 +81,8 @@ Also take a look at this <a href="http://javarevisited.blogspot.com/2011/06/nocl
 
 I have also seen a situation where imports that are declared as optional can cause this error.  What happens is Bundle A is deployed with and optional import of Bundle B.  Bundle B is deployed after but the wiring never happens.  When Bundle A called and Bundle B is required to execute the code this error occurs.  I'm looking at this <a href="http://eclipse.1072660.n5.nabble.com/Optional-dependency-is-not-resolved-after-update-td97603.html">post</a>. What I had to end up doing is refreshing Bundle A (or all bundles for laziness) to get the wiring to Bundle B to get picked up.  Early on I was getting this problem a lot because of the order I was installing and starting up bundles.  Because of the <a href="http://stackoverflow.com/questions/4330927/how-does-osgi-bundle-update-work">way bundles are installed/updated/refreshed</a> you must do one of two things when setting up bundles in an environment:
 
-    1. Install all bundles first and start all together
-    2. Each time you update / install a new bundle you must find the bundles that depend on it and refresh them (or refresh all bundles)
+1. Install all bundles first and start all together
+2. Each time you update / install a new bundle you must find the bundles that depend on it and refresh them (or refresh all bundles)
 
 ## How Do I Specify Custom Maven Settings (For Installing Dependencies)?
 
