@@ -49,6 +49,13 @@
         <directory>dist</directory>
         <plugins>
             <plugin>
+                <groupId>tools.osgi</groupId>
+                <artifactId>maven-special-plugin</artifactId>
+                <version>1.1</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.5</version>
@@ -166,7 +173,7 @@
                             <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
                         </configuration>
                     </execution>
-                
+
                     <!-- User Region SSH Settings -->
                     <execution>
                         <id>set-user-region-ssh-settings</id>
@@ -251,12 +258,13 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>exec-maven-plugin</artifactId>
                         <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.3.1</version>
                         <executions>
                             <execution>
                                 <id>run-virgo</id>
-                                <phase>pre-integration-test</phase>
+                                <phase>special</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
@@ -280,12 +288,13 @@
                     <!-- Kernel Region URL: admin@localhost:2402 -->
                     <!-- Password: springsource -->
                     <plugin>
-                        <artifactId>exec-maven-plugin</artifactId>
                         <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.3.1</version>
                         <executions>
                             <execution>
-                                <id>run-virgo</id>
-                                <phase>pre-integration-test</phase>
+                                <id>connect-to-virgo</id>
+                                <phase>special</phase>
                                 <goals>
                                     <goal>java</goal>
                                 </goals>
