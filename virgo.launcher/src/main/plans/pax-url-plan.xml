@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<plan name="multi-artifact.plan" version="1.0.0" scoped="true" atomic="true" xmlns="http://www.eclipse.org/virgo/schema/plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eclipse.org/virgo/schema/plan http://www.eclipse.org/virgo/schema/plan/eclipse-virgo-plan.xsd">
-
-    <artifact type="bundle" name="app-properties" version="1.0.0" />
-    <artifact type="bundle" name="com.springsource.exciting.app" version="[2.0.0, 3.1.0)" />
-
-</plan>

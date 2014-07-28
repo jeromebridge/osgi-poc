@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plan name="pax-url.plan" version="1.0.0" scoped="false" atomic="false" provisioning="auto" xmlns="http://www.eclipse.org/virgo/schema/plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eclipse.org/virgo/schema/plan http://www.eclipse.org/virgo/schema/plan/eclipse-virgo-plan.xsd">
+
+	<artifact type="bundle" name="org.ops4j.base.lang" version="1.4.0" />
+    <artifact type="bundle" name="org.ops4j.base.io" version="1.4.0" />
+    <artifact type="bundle" name="org.ops4j.base.monitors" version="1.4.0" />
+    <artifact type="bundle" name="jackson-core-asl" version="1.9.13" />
+    <artifact type="bundle" name="org.ops4j.pax.swissbox.core" version="1.7.1" />
+    <artifact type="bundle" name="org.ops4j.base.util.property" version="1.4.0" />
+    <artifact type="bundle" name="org.ops4j.pax.swissbox.property" version="1.7.1" />
+    <artifact type="bundle" name="org.ops4j.pax.url.commons" version="2.1.0" />
+    <artifact type="bundle" name="org.ops4j.pax.url.assembly" version="2.1.0" />
+    <artifact type="bundle" name="org.ops4j.pax.url.mvn" version="2.1.0" />
+
+</plan>

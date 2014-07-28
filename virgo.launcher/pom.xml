@@ -217,7 +217,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/pickup</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/plans</directory>
