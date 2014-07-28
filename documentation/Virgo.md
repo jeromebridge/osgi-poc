@@ -3,7 +3,7 @@
 Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/documentation/virgo-documentation-3.6.2.RELEASE/docs/virgo-user-guide/htmlsingle/virgo-user-guide.html#installation">here</a>
 
 1. Download Virgo Tomcat distribution; Extract the folder where you want to install it
-2. <del>Edit the *configuration/osgi.console.properties* file:</del>
+2. Edit the *configuration/osgi.console.properties* file:
 
         ssh.enabled=true
 

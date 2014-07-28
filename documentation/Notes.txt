@@ -521,6 +521,9 @@ com.yaas.policy;version="[1.0,2)",
 rnel/org.eclipse.virgo.kernel.deployer/3.6.2.RELEASE/org.eclipse.virgo.kernel.deployer-3.6.2.RELEASE.jar
 http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.nano/org.eclipse.virgo.nano.deployer.api/3.6.2.RELEASE/org.eclipse.virgo.nano.deployer.api-3.6.2.RELEASE.jar
 
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=com.springsource.org.h2&version=1.0.71&type=binary
+install mvn:com.eclipsesource.virgo.examples/com.eclipsesource.virgo.examples.blueprint.h2/1.0.0.BUILD-SNAPSHOT
+install mvn:com.eclipsesource.virgo.examples/com.eclipsesource.virgo.examples.blueprint.sqlcommands/1.0.0.BUILD-SNAPSHOT
 
 
 install mvn:org.eclipse.rap/org.eclipse.rap.rwt/2.0.0
@@ -534,8 +537,35 @@ vsh:install assembly:"/home/developer/git/osgi-poc/test.web/target/classes"
 install -start file:///home/developer/git/osgi-poc/test.web/target/test.web-1.0.0-SNAPSHOT.jar
 install -start file:///home/developer/git/osgi-poc/test.virgo.deployer/target/test.virgo.deployer-1.0.0-SNAPSHOT.jar
 
+
+
 install -start assembly:"/home/developer/git/osgi-poc/test.virgo.deployer/target/classes"
 
 
 
 sh /home/developer/git/osgi-poc/felixLauncher/scripts/virgo-setup.sh
+sh /home/developer/git/osgi-poc/felixLauncher/scripts/virgo-yaas.sh
+
+
+
+Virgo
+---------------------------------
+How do I see if any bundles export the package I need?
+How do I see what services are in the registry?
+I'm getting "uses conflict" when installing my bundle
+   http://stackoverflow.com/questions/5504113/package-uses-conflict-import-package-on-startup-of-a-bundle
+   http://spring.io/blog/2008/11/22/diagnosing-osgi-uses-conflicts/
+   http://chamibuddhika.wordpress.com/2012/05/15/learn-by-errors-java-osgi/
+TODO: Get other maven repositories to work with install command
+How can I inject a service that will get picked up in a blueprint reference?
+
+Spring related links:
+   http://thomaskratz.blogspot.in/2012/03/osgi-spring-dispatcherservlet.html
+
+
+Write tool that will auto-analyze errors in deploying bundles
+    - Display duplicate import packages
+    - Suggest bundles when an import is not satisfied or show bundles that export the package but a different version
+    - Suggest possible reasons for NoClassDefFound such as optional dependencies not being satisfied in the calling bundle
+    - Analyze a stack trace and identifiy the bundle that each stack element resides in
+
