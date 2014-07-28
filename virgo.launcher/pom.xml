@@ -1,0 +1,328 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>poc.osgi</groupId>
+    <artifactId>virgo.launcher</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Virgo Launcher</name>
+
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <virgo.version>3.6.3.RELEASE</virgo.version>
+        <osgi.compendium.version>4.2.0</osgi.compendium.version>
+        <pax.url.version>2.1.0</pax.url.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <name>Internal Nexus Repository</name>
+            <id>internal-nexus-repository</id>
+            <url>http://repo.pennassurancesoftware.com/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <name>Internal Nexus Snapshot Repository</name>
+            <id>internal-nexus-snapshot-repository</id>
+            <url>http://repo.pennassurancesoftware.com/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <outputDirectory>bin/maven/classes</outputDirectory>
+        <testOutputDirectory>bin/maven/test-classes</testOutputDirectory>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <!-- Download Virgo Server -->
+                    <execution>
+                        <id>unpack</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.virgo</groupId>
+                                    <artifactId>virgo-tomcat-server</artifactId>
+                                    <version>${virgo.version}</version>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/staging</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                    <!-- Install PAX URL -->
+                    <execution>
+                        <id>copy-insdoc</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.ops4j.base</groupId>
+                                    <artifactId>ops4j-base-lang</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.base</groupId>
+                                    <artifactId>ops4j-base-monitors</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.base</groupId>
+                                    <artifactId>ops4j-base-io</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.codehaus.jackson</groupId>
+                                    <artifactId>jackson-core-asl</artifactId>
+                                    <version>1.9.13</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.swissbox</groupId>
+                                    <artifactId>pax-swissbox-core</artifactId>
+                                    <version>1.7.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.base</groupId>
+                                    <artifactId>ops4j-base-util-property</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.swissbox</groupId>
+                                    <artifactId>pax-swissbox-property</artifactId>
+                                    <version>1.7.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.url</groupId>
+                                    <artifactId>pax-url-commons</artifactId>
+                                    <version>${pax.url.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.url</groupId>
+                                    <artifactId>pax-url-assembly</artifactId>
+                                    <version>${pax.url.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.url</groupId>
+                                    <artifactId>pax-url-aether</artifactId>
+                                    <version>${pax.url.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- Update Properties -->
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <!-- Kernel Region SSH Settings -->
+                    <execution>
+                        <id>set-kernel-region-ssh-settings</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <target.file>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/configuration/osgi.console.properties</target.file>
+                                <source.file>${project.basedir}/src/main/config/kernel.osgi.console.properties</source.file>
+                            </properties>
+                            <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
+                        </configuration>
+                    </execution>
+                
+                    <!-- User Region SSH Settings -->
+                    <execution>
+                        <id>set-user-region-ssh-settings</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <target.file>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext/osgi.console.properties</target.file>
+                                <source.file>${project.basedir}/src/main/config/user.osgi.console.properties</source.file>
+                            </properties>
+                            <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classpath>
+                        <element>
+                            <groupId>commons-configuration</groupId>
+                            <artifactId>commons-configuration</artifactId>
+                        </element>
+                        <element>
+                            <groupId>commons-lang</groupId>
+                            <artifactId>commons-lang</artifactId>
+                        </element>
+                    </classpath>
+                </configuration>
+            </plugin>
+
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <versionRange>[2.2,)</versionRange>
+                                        <goals>
+                                            <goal>copy</goal>
+                                            <goal>unpack</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.codehaus.gmaven</groupId>
+                                        <artifactId>gmaven-plugin</artifactId>
+                                        <versionRange>[1.5,)</versionRange>
+                                        <goals>
+                                            <goal>execute</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+
+        <!-- Run Virgo -->
+        <profile>
+            <id>run-virgo</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <executions>
+                            <execution>
+                                <id>run-virgo</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/bin/startup.sh</executable>
+                                    <commandlineArgs>-debug -clean -Djava.protocol.handler.pkgs=org.ops4j.pax.url</commandlineArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Connect To Virgo -->
+        <profile>
+            <id>connect-to-virgo</id>
+            <build>
+                <plugins>
+                    <!-- User Region URL: admin@localhost:2502 -->
+                    <!-- Kernel Region URL: admin@localhost:2402 -->
+                    <!-- Password: springsource -->
+                    <plugin>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <executions>
+                            <execution>
+                                <id>run-virgo</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>com.jcraft.jcterm.JCTermSwingFrame</mainClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <!-- SSH -->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.51</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jcterm</artifactId>
+            <version>0.0.11</version>
+        </dependency>
+
+        <!-- Commons -->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+    </dependencies>
+</project>

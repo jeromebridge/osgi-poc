@@ -4,14 +4,29 @@ ias={install -start $1}
 # install -start mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-beanutils/1.8.3_2
 # install -start mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.dom4j/1.6.1_5
 # install -start mvn:org.apache.commons/commons-lang3/3.1
+
+# EclipseLink JPA
 # install -start mvn:org.eclipse.persistence/javax.persistence/2.0.4.v201112161009
 # install -start mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.4.0
 # install -start mvn:org.eclipse.persistence/org.eclipse.persistence.asm/3.3.1.v201206041142
 # install -start mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.4.0
+
+# EclipseLink JPA2
+install -start mvn:javax.persistence/com.springsource.javax.persistence/2.0.0
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.4.0
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.asm/3.3.1.v201206041142
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.4.0
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.jpa.jpql/2.4.0
+install -start mvn:org.eclipse.persistence/org.eclipse.persistence.antlr/3.2.0.v201206041011
+
+
+
+
+
 install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.transaction&version=3.1.0.RELEASE&type=binary
 # install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.jdbc&version=3.1.0.RELEASE&type=binary
 # install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.orm&version=3.1.0.RELEASE&type=binary
-# install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.aspects&version=3.1.0.RELEASE&type=binary
+install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.aspects&version=3.1.0.RELEASE&type=binary
 # install -start mvn:javax.servlet/javax.servlet/3.0.0.v201103241009
 # # install -start mvn:javax.servlet/com.springsource.javax.servlet/2.5.0
 # install -start http://ebr.springsource.com/repository/app/bundle/version/download?name=org.springframework.web&version=3.1.0.RELEASE&type=binary
@@ -22,6 +37,11 @@ install -start http://ebr.springsource.com/repository/app/bundle/version/downloa
 # ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.medic/org.eclipse.virgo.medic/3.6.2.RELEASE/org.eclipse.virgo.medic-3.6.2.RELEASE.jar
 # ias http://build.eclipse.org/rt/virgo/ivy/bundles/release/org.eclipse.virgo.web/org.eclipse.virgo.web.dm/3.6.2.RELEASE/org.eclipse.virgo.web.dm-3.6.2.RELEASE.jar
 
+# SLF4J
+install mvn:org.slf4j/com.springsource.slf4j.api/1.6.1
+install mvn:org.slf4j/com.springsource.slf4j.simple/1.6.1
+# install mvn:org.slf4j/com.springsource.slf4j.log4j/1.6.1
+ias mvn:org.slf4j/com.springsource.slf4j.org.apache.commons.logging/1.6.1
 
 # Liquibase
 ias mvn:com.pennassurancesoftware.bundles/com.pennassurancesoftware.bundles.snakeyaml/1.13-SNAPSHOT
@@ -46,6 +66,8 @@ ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-bean
 ias mvn:com.google.guava/guava/12.0.1
 ias mvn:org.apache.log4j/com.springsource.org.apache.log4j/1.2.16
 
+ias mvn:com.atomikos/transactions-osgi/3.9.2
+
 # Yaas Dependencies
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-dbcp/1.4_3
 ias mvn:org.apache.commons/com.springsource.org.apache.commons.pool/1.5.3
@@ -59,12 +81,24 @@ ias mvn:javax.persistence/com.springsource.javax.persistence/2.0.0
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-collections/3.2.1_3
 ias mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.commons-io/1.4_3
 
+# Refresh All Bundles
+# refresh
+
+# OSGi Utils
+ias mvn:com.springsource.util/com.springsource.util.parser.manifest/2.0.5.RELEASE
+ias mvn:com.springsource.util/com.springsource.util.common/2.0.5.RELEASE
+ias mvn:com.springsource.util/com.springsource.util.osgi/2.0.5.RELEASE
+
 # Workspace
 workspace_path=/home/developer/git/yet-another-admin-system
-# ias assembly:"${workspace_path}/yaas-commons/bin/maven/classes"
-# ias assembly:"${workspace_path}/yaas-configuration/bin/maven/classes"
-# ias assembly:"${workspace_path}/yaas-db/bin/maven/classes"
-# ias assembly:"${workspace_path}/yaas-core/bin/maven/classes"
-# ias assembly:"${workspace_path}/yaas-policy/bin/maven/classes"
-# ias assembly:"${workspace_path}/yaas-ws/bin/maven/classes"
-# ias file://${workspace_path}/yaas-ws/dist/yaas-ws-1.0.0.M1.jar
+ias assembly:"${workspace_path}/yaas-commons/bin/maven/classes"
+ias assembly:"${workspace_path}/yaas-configuration/bin/maven/classes"
+ias assembly:"${workspace_path}/yaas-db/bin/maven/classes"
+ias assembly:"${workspace_path}/yaas-core/bin/maven/classes"
+ias assembly:"${workspace_path}/yaas-policy/bin/maven/classes"
+
+## ias assembly:"${workspace_path}/yaas-ws/bin/maven/classes"
+# vsh:install file://${workspace_path}/yaas-ws/dist/yaas-ws-1.0.0.M1.jar
+## vsh:bundle start 194
+## update 184 file://${workspace_path}/yaas-ws/dist/yaas-ws-1.0.0.M1.jar
+
