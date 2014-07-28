@@ -143,7 +143,7 @@
                                     <version>${pax.url.version}</version>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/pickup</outputDirectory>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
@@ -202,6 +202,32 @@
                         </element>
                     </classpath>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+
+                    <!-- Copy Plans -->
+                    <execution>
+                        <id>copy-plans</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/plans</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                </executions>
             </plugin>
 
         </plugins>
