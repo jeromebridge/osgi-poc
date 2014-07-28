@@ -143,7 +143,7 @@
                                     <version>${pax.url.version}</version>
                                 </artifactItem>
                             </artifactItems>
-                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/pickup</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
