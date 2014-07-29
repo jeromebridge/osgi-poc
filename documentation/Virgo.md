@@ -13,7 +13,7 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
 
 3. Create the file <a href="maven-settings.xml">repository/ext/maven-settings.xml</a> in extracted folder.
 
-3. Add PAX URL Maven configuration.  Create the file org.ops4j.pax.url.mvn.properties in the repository/ext folder.  This file will contain the settings for PAX URL maven.
+3. Add PAX URL Maven configuration.  Create the file Create the file <a href="org.ops4j.pax.url.mvn.properties">repository/ext/org.ops4j.pax.url.mvn.properties</a>
 
         
 3. Start the server
