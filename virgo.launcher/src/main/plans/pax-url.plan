@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plan name="pax-url.plan" version="1.0.0" scoped="false" atomic="false" provisioning="auto" xmlns="http://www.eclipse.org/virgo/schema/plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eclipse.org/virgo/schema/plan http://www.eclipse.org/virgo/schema/plan/eclipse-virgo-plan.xsd">
 
+	<artifact type="configuration" name="org.ops4j.pax.url.mvn" version="0" />
+
 	<artifact type="bundle" name="org.ops4j.base.lang" version="1.4.0" />
     <artifact type="bundle" name="org.ops4j.base.io" version="1.4.0" />
     <artifact type="bundle" name="org.ops4j.base.monitors" version="1.4.0" />

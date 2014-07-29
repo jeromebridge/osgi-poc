@@ -226,6 +226,24 @@
                             </resources>
                         </configuration>
                     </execution>
+                    
+                    <!-- Copy Configuration -->
+                    <execution>
+                        <id>copy-pax-url-configuration</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/ext</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/config/ext</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
 
                 </executions>
             </plugin>
