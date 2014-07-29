@@ -11,38 +11,14 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
  
         ssh.enabled=true
 
-3. Create the file configuration/maven-settings.xml in extracted folder with the following contents:
+3. Create the file <a href="maven-settings.xml">repository/ext/maven-settings.xml</a> in extracted folder.
 
-        <?xml version="1.0" encoding="UTF-8"?>
-        <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd"> 
-            <servers> 
-                <server>
-                    <id>internal-nexus-repository</id>
-                    <username>oss</username>
-                    <password>password</password>
-                </server>
-                <server>
-                    <id>internal-nexus-snapshot-repository</id>
-                    <username>oss</username>
-                    <password>password</password>
-                </server>
-                <server>
-                    <id>internal-nexus-sites-repository</id>
-                    <username>oss</username>
-                    <password>password</password>
-                </server>
-                <server>
-                    <id>internal-nexus-release-repository</id>
-                    <username>oss</username>
-                    <password>password</password>
-                </server>
-            </servers>
-        </settings>
+3. Add PAX URL Maven configuration.  Create the file org.ops4j.pax.url.mvn.properties in the repository/ext folder.  This file will contain the settings for PAX URL maven.
 
         
 3. Start the server
      
-        bin/startup.sh -debug -clean -Djava.protocol.handler.pkgs=org.ops4j.pax.url -Dorg.ops4j.pax.url.mvn.settings=configuration/maven-settings.xml -Dorg.ops4j.pax.url.mvn.repositories=http://repo.pennassurancesoftware.com/content/groups/public@id=internal-nexus-repository,http://repo.pennassurancesoftware.com/content/groups/public-snapshots@id=internal-nexus-repository@snapshots
+        bin/startup.sh -debug -clean -Djava.protocol.handler.pkgs=org.ops4j.pax.url
 
 4. SSH to console
 
