@@ -76,3 +76,13 @@ Virgo Documentation can be found here <a href="http://www.eclipse.org/virgo/docu
         
     That command would give me all the bundles with the word "test" in the name.
     
+# FAQ
+
+## I get this error when trying to deploy a plan to Virgo: Cannot determine the artifact identity of the file '/some/random/path/blah-blah.plan'.
+
+I think this is most likely being caused by one of the artifacts in the plan XML.  The error is not <a href="https://www.eclipse.org/forums/index.php/mv/msg/351068/871243/#msg_871243">very helpful</a>.  I would remove each artifact starting from the bottom until you cease to get the error.  When I got the error the problem was <a href="https://www.eclipse.org/forums/index.php/mv/msg/351068/1075523/#msg_1075523">malformed XML</a>.
+
+
+
+
+
