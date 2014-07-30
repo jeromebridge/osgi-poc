@@ -128,6 +128,16 @@
                                     <version>1.7.1</version>
                                 </artifactItem>
                                 <artifactItem>
+                                    <groupId>org.ops4j.pax.swissbox</groupId>
+                                    <artifactId>pax-swissbox-lifecycle</artifactId>
+                                    <version>1.7.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.swissbox</groupId>
+                                    <artifactId>pax-swissbox-tracker</artifactId>
+                                    <version>1.7.1</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.ops4j.pax.url</groupId>
                                     <artifactId>pax-url-commons</artifactId>
                                     <version>${pax.url.version}</version>
@@ -140,6 +150,26 @@
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.url</groupId>
                                     <artifactId>pax-url-aether</artifactId>
+                                    <version>${pax.url.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.base</groupId>
+                                    <artifactId>ops4j-base-net</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.osgi.service.obr</artifactId>
+                                    <version>1.0.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.felix</groupId>
+                                    <artifactId>org.apache.felix.bundlerepository</artifactId>
+                                    <version>2.0.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.ops4j.pax.url</groupId>
+                                    <artifactId>pax-url-obr</artifactId>
                                     <version>${pax.url.version}</version>
                                 </artifactItem>
                             </artifactItems>
@@ -189,6 +219,22 @@
                             <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
                         </configuration>
                     </execution>
+                    
+                    <!-- OSGi Framework Properties -->
+                    <execution>
+                        <id>update-framework-properties</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <target.file>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/configuration/config.ini</target.file>
+                                <source.file>${project.basedir}/src/main/config/config.ini</source.file>
+                            </properties>
+                            <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <classpath>
@@ -226,7 +272,7 @@
                             </resources>
                         </configuration>
                     </execution>
-                    
+
                     <!-- Copy Configuration -->
                     <execution>
                         <id>copy-pax-url-configuration</id>

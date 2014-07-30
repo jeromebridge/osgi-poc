@@ -10,8 +10,14 @@
     <artifact type="bundle" name="org.ops4j.pax.swissbox.core" version="1.7.1" />
     <artifact type="bundle" name="org.ops4j.base.util.property" version="1.4.0" />
     <artifact type="bundle" name="org.ops4j.pax.swissbox.property" version="1.7.1" />
+    <artifact type="bundle" name="org.ops4j.pax.swissbox.lifecycle" version="1.7.1" />
+    <artifact type="bundle" name="org.ops4j.pax.swissbox.tracker" version="1.7.1" />
     <artifact type="bundle" name="org.ops4j.pax.url.commons" version="2.1.0" />
     <artifact type="bundle" name="org.ops4j.pax.url.assembly" version="2.1.0" />
     <artifact type="bundle" name="org.ops4j.pax.url.mvn" version="2.1.0" />
+    <artifact type="bundle" name="org.ops4j.base.net" version="1.4.0" />
+    <artifact type="bundle" name="org.osgi.service.obr" version="[1.0.0,2.0)" />
+    <artifact type="bundle" name="org.apache.felix.bundlerepository" version="2.0.2" />
+    <artifact type="bundle" name="org.ops4j.pax.url.obr" version="2.1.0" />
 
 </plan>
