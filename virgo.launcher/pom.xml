@@ -22,7 +22,7 @@
         <repository>
             <name>Internal Nexus Repository</name>
             <id>internal-nexus-repository</id>
-            <url>http://repo.pennassurancesoftware.com/content/groups/public</url>
+            <url>http://repo.pennassurancesoftware.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -33,7 +33,7 @@
         <repository>
             <name>Internal Nexus Snapshot Repository</name>
             <id>internal-nexus-snapshot-repository</id>
-            <url>http://repo.pennassurancesoftware.com/content/repositories/snapshots</url>
+            <url>http://repo.pennassurancesoftware.com/repository/snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -219,7 +219,7 @@
                             <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
                         </configuration>
                     </execution>
-                    
+
                     <!-- OSGi Framework Properties -->
                     <execution>
                         <id>update-framework-properties</id>
