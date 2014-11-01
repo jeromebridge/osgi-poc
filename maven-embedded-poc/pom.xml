@@ -96,6 +96,13 @@
             <version>1.7.5</version>
         </dependency>
 
+        <!-- Repository Generator -->
+        <dependency>
+            <groupId>org.apache.aries</groupId>
+            <artifactId>org.apache.aries.util</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>org.testng</groupId>

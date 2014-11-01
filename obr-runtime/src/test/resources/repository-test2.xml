@@ -1,0 +1,15 @@
+<repository lastmodified='20141031064542.304'>
+    <!--
+        obr:repos add file:///home/developer/git/osgi-poc/obr-runtime/src/test/resources/repository-test2.xml
+    -->
+    <resource id='test.bundle/1.0.0.SNAPSHOT' symbolicname='test.bundle' presentationname='Test Bundle' uri='assembly:/home/developer/git/osgi-poc/test.bundle/target/classes' version='1.0.0.SNAPSHOT'>
+        <size>2999</size>
+        <capability name='bundle'>
+            <p n='symbolicname' v='test.bundle' />
+            <p n='presentationname' v='Test Bundle' />
+            <p n='version' t='version' v='1.0.0.SNAPSHOT' />
+            <p n='manifestversion' v='2' />
+        </capability>
+        <require name='package' filter='(&amp;(package=org.osgi.framework)(version&gt;=1.5.0)(!(version&gt;=2.0.0)))' extend='false' multiple='false' optional='false'>Import package org.osgi.framework;version="[1.5,2)"</require>
+    </resource>
+</repository>

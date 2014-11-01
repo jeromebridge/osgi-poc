@@ -9,7 +9,7 @@ public class TestAny {
       // return "/home/developer/Workspaces/Workspace - OSGi2";
       return "/home/developer/git/osgi-poc";
    }
-
+   
    // @Test
    public void testExample() throws Exception {
       MavenCli cli = new MavenCli();
