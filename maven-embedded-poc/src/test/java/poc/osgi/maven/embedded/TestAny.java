@@ -57,6 +57,10 @@ public class TestAny {
       System.out.println( dependencies );
       System.out.println( "=====================================================" );
    }
+   
+   public void testEmbeder() throws Exception {
+      
+   }
 
    private List<Dependency> parseDependencies( String content ) {
       final String className = "ResolveDependenciesMojo";
