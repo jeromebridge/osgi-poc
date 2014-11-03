@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
 import org.osgi.resource.Capability;
 import org.osgi.resource.Requirement;
 
@@ -38,7 +37,7 @@ public class ExtendedRepoIndex extends RepoIndex {
    private List<ResourceAnalyzer> getAnalyzers() {
       try {
          final Field field = getClass().getSuperclass().getDeclaredField( "analyzers" );
-         Validate.notNull( field, "Field: analyzer could not be found." );
+         //Validate.notNull( field, "Field: analyzer could not be found." );
          field.setAccessible( true );
          return ( List<ResourceAnalyzer> )field.get( this );
       }

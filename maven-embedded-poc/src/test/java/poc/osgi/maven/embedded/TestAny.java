@@ -1,5 +1,8 @@
 package poc.osgi.maven.embedded;
 
+import hudson.maven.MavenEmbedder;
+import hudson.maven.MavenRequest;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,11 +12,14 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.apache.felix.bundlerepository.impl.DataModelHelperImpl;
 import org.apache.felix.bundlerepository.impl.RepositoryImpl;
 import org.apache.felix.bundlerepository.impl.ResourceImpl;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Dependency;
+import org.apache.maven.project.MavenProject;
 import org.junit.Test;
 
 import poc.osgi.bndtools.util.ObrUtils;
@@ -57,9 +63,17 @@ public class TestAny {
       System.out.println( dependencies );
       System.out.println( "=====================================================" );
    }
-   
-   public void testEmbeder() throws Exception {
-      
+
+   @Test
+   public void testMavenEmbedder() throws Exception {
+      final File pomFile = new File( getBasedir2() + "/yaas-commons" + "/pom.xml" );
+      final MavenRequest mavenRequest = new MavenRequest();
+      mavenRequest.setPom( pomFile.getAbsolutePath() );
+      mavenRequest.setLocalRepositoryPath( "/home/developer/.m2/repository" );
+      // mavenRequest.setBaseDirectory( new File( "src/test/projects-tests/scm-git-test-one-module" ).getAbsolutePath() );
+      final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
+      final MavenProject project = mavenEmbedder.readProject( pomFile );
+      Assert.assertEquals( "my-app", project.getArtifactId() );
    }
 
    private List<Dependency> parseDependencies( String content ) {
