@@ -64,6 +64,7 @@ public class TestAny {
       System.out.println( "=====================================================" );
    }
 
+   @SuppressWarnings("deprecation")
    @Test
    public void testMavenEmbedder() throws Exception {
       final File pomFile = new File( getBasedir2() + "/yaas-commons" + "/pom.xml" );
@@ -73,7 +74,7 @@ public class TestAny {
       // mavenRequest.setBaseDirectory( new File( "src/test/projects-tests/scm-git-test-one-module" ).getAbsolutePath() );
       final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
       final MavenProject project = mavenEmbedder.readProject( pomFile );
-      Assert.assertEquals( "my-app", project.getArtifactId() );
+      Assert.assertEquals( "yaas-commons", project.getArtifactId() );
    }
 
    private List<Dependency> parseDependencies( String content ) {
