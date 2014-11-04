@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -17,6 +18,9 @@ import junit.framework.Assert;
 import org.apache.felix.bundlerepository.impl.DataModelHelperImpl;
 import org.apache.felix.bundlerepository.impl.RepositoryImpl;
 import org.apache.felix.bundlerepository.impl.ResourceImpl;
+import org.apache.maven.artifact.Artifact;
+import org.apache.maven.artifact.DefaultArtifact;
+import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.project.MavenProject;
@@ -24,6 +28,7 @@ import org.junit.Test;
 
 import poc.osgi.bndtools.util.ObrUtils;
 
+@SuppressWarnings("deprecation")
 public class TestAny {
 
    private String getBasedir() {
@@ -58,13 +63,12 @@ public class TestAny {
       final int result = cli.doMain( new String[]{ "dependency:resolve" }, getBasedir2() + "/yaas-commons", ps, ps );
       final String content = baos.toString( "UTF-8" );
       final List<Dependency> dependencies = parseDependencies( content );
-      System.out.println( "result: " + result );
+      System.out.println( "return code: " + result );
       System.out.println( "=====================================================" );
       System.out.println( dependencies );
       System.out.println( "=====================================================" );
    }
 
-   @SuppressWarnings("deprecation")
    @Test
    public void testMavenEmbedder() throws Exception {
       final File pomFile = new File( getBasedir2() + "/yaas-commons" + "/pom.xml" );
@@ -75,6 +79,70 @@ public class TestAny {
       final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
       final MavenProject project = mavenEmbedder.readProject( pomFile );
       Assert.assertEquals( "yaas-commons", project.getArtifactId() );
+      for( Dependency dependency : project.getDependencies() ) {
+         final ArtifactHandler handler = mavenEmbedder.getPlexusContainer().lookup( ArtifactHandler.class );
+         final Artifact filter = new DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion(), dependency.getScope(), dependency.getType(), dependency.getClassifier(), handler );
+         final Artifact found = mavenEmbedder.getLocalRepository().find( filter );
+         Assert.assertNotNull( found );
+         System.out.println( found );
+         System.out.println( getFile( found ) );
+         Assert.assertTrue( getFile( found ).exists() );
+      }
+   }
+
+   @Test
+   public void testWorkspaceRepository() throws Exception {
+      // Fixture
+      final File repositoryFile = new File( "/home/developer/Documents/tmp-repository3.xml" );
+      final File workspaceFolder = new File( getBasedir2() );
+      final List<String> projects = Arrays.asList( "yaas-commons", "yaas-xml" );
+
+      // Call
+      final RepositoryImpl repository = new RepositoryImpl();
+      for( String projectName : projects ) {
+         final File projectFolder = new File( workspaceFolder.getAbsolutePath() + File.separator + projectName );
+         final File pomFile = new File( projectFolder.getAbsolutePath() + File.separator + "pom.xml" );
+         final File classesFolder = new File( projectFolder.getAbsolutePath() + File.separator + "bin/maven/classes" );
+         final MavenRequest mavenRequest = new MavenRequest();
+         mavenRequest.setPom( pomFile.getAbsolutePath() );
+         final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
+         final MavenProject project = mavenEmbedder.readProject( pomFile );
+         for( Dependency dependency : project.getDependencies() ) {
+            final ArtifactHandler handler = mavenEmbedder.getPlexusContainer().lookup( ArtifactHandler.class );
+            final Artifact filter = new DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion(), dependency.getScope(), dependency.getType(), dependency.getClassifier(), handler );
+            final Artifact found = mavenEmbedder.getLocalRepository().find( filter );
+            if( !projects.contains( found.getArtifactId() ) ) {
+               addJarResource( repository, getFile( found ) );
+            }
+         }
+         addAssemblyResource( repository, classesFolder.getAbsolutePath() );
+      }
+
+      // 1. Determine all "workspace" artifacts
+      // 2. Gather all "external" artifacts that should be included
+      // 3. Add all "workspace" artifacts to the repository
+      // 4. Add all "external" artifacts to the repository
+      
+      // obr:repos add file:///home/developer/Documents/tmp-repository3.xml
+      // obr:list
+      // obr:deploy yaas-commons
+
+      final DataModelHelperImpl dmh = new DataModelHelperImpl();
+      final Writer writer = new FileWriter( repositoryFile );
+      try {
+         dmh.writeRepository( repository, writer );
+      }
+      finally {
+         writer.close();
+      }
+   }
+
+   private File getFile( Artifact artifact ) {
+      File result = artifact.getFile();
+      if( !result.getAbsolutePath().endsWith( artifact.getType() ) ) {
+         result = new File( result.getAbsolutePath() + "." + artifact.getType() );
+      }
+      return result;
    }
 
    private List<Dependency> parseDependencies( String content ) {
@@ -138,8 +206,8 @@ public class TestAny {
       // 4. Add all "external" artifacts to the repository
 
       final RepositoryImpl repository = new RepositoryImpl();
-      addResource( repository, path1 );
-      addResource( repository, path2 );
+      addAssemblyResource( repository, path1 );
+      addAssemblyResource( repository, path2 );
 
       final DataModelHelperImpl dmh = new DataModelHelperImpl();
       final Writer writer = new FileWriter( repositoryFile );
@@ -151,7 +219,20 @@ public class TestAny {
       }
    }
 
-   private ResourceImpl addResource( RepositoryImpl repository, String bundleFolder ) {
+   private ResourceImpl addJarResource( RepositoryImpl repository, File jarFile ) {
+      try {
+         final ResourceImpl resource = ( ResourceImpl )new DataModelHelperImpl().createResource( jarFile.toURL() );
+         if( resource != null ) {
+            repository.addResource( resource );
+         }
+         return resource;
+      }
+      catch( Exception exception ) {
+         throw new RuntimeException( String.format( "Error adding jar resource: %s", jarFile ), exception );
+      }
+   }
+
+   private ResourceImpl addAssemblyResource( RepositoryImpl repository, String bundleFolder ) {
       try {
          final File resourceFile = new File( bundleFolder );
          final URI resourceUri = new URI( String.format( "assembly:%s", bundleFolder ) );
