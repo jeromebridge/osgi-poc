@@ -15,6 +15,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.felix.bundlerepository.Resource;
 import org.apache.felix.bundlerepository.impl.DataModelHelperImpl;
 import org.apache.felix.bundlerepository.impl.RepositoryImpl;
 import org.apache.felix.bundlerepository.impl.ResourceImpl;
@@ -24,12 +25,24 @@ import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.project.MavenProject;
+import org.eclipse.aether.RepositorySystem;
+import org.eclipse.aether.RepositorySystemSession;
+import org.eclipse.aether.collection.CollectRequest;
+import org.eclipse.aether.graph.DependencyFilter;
+import org.eclipse.aether.resolution.ArtifactResult;
+import org.eclipse.aether.resolution.DependencyRequest;
+import org.eclipse.aether.util.artifact.JavaScopes;
+import org.eclipse.aether.util.filter.DependencyFilterUtils;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import poc.osgi.aether.Booter;
 import poc.osgi.bndtools.util.ObrUtils;
 
 @SuppressWarnings("deprecation")
 public class TestAny {
+   private Logger LOG = LoggerFactory.getLogger( TestAny.class );
 
    private String getBasedir() {
       // return "/home/developer/Workspaces/Workspace - OSGi2";
@@ -62,6 +75,9 @@ public class TestAny {
       final MavenCli cli = new MavenCli();
       final int result = cli.doMain( new String[]{ "dependency:resolve" }, getBasedir2() + "/yaas-commons", ps, ps );
       final String content = baos.toString( "UTF-8" );
+      if( result != 0 ) {
+         System.out.println( content );
+      }
       final List<Dependency> dependencies = parseDependencies( content );
       System.out.println( "return code: " + result );
       System.out.println( "=====================================================" );
@@ -84,8 +100,8 @@ public class TestAny {
          final Artifact filter = new DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion(), dependency.getScope(), dependency.getType(), dependency.getClassifier(), handler );
          final Artifact found = mavenEmbedder.getLocalRepository().find( filter );
          Assert.assertNotNull( found );
-         System.out.println( found );
-         System.out.println( getFile( found ) );
+         //         System.out.println( found );
+         //         System.out.println( getFile( found ) );
          Assert.assertTrue( getFile( found ).exists() );
       }
    }
@@ -95,7 +111,7 @@ public class TestAny {
       // Fixture
       final File repositoryFile = new File( "/home/developer/Documents/tmp-repository3.xml" );
       final File workspaceFolder = new File( getBasedir2() );
-      final List<String> projects = Arrays.asList( "yaas-commons", "yaas-xml" );
+      final List<String> projects = Arrays.asList( "yaas-commons" );
 
       // Call
       final RepositoryImpl repository = new RepositoryImpl();
@@ -107,12 +123,19 @@ public class TestAny {
          mavenRequest.setPom( pomFile.getAbsolutePath() );
          final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
          final MavenProject project = mavenEmbedder.readProject( pomFile );
-         for( Dependency dependency : project.getDependencies() ) {
-            final ArtifactHandler handler = mavenEmbedder.getPlexusContainer().lookup( ArtifactHandler.class );
+         final List<Dependency> dependencies = project.getDependencies();
+         final ArtifactHandler handler = mavenEmbedder.getPlexusContainer().lookup( ArtifactHandler.class );
+         for( Dependency dependency : dependencies ) {
             final Artifact filter = new DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion(), dependency.getScope(), dependency.getType(), dependency.getClassifier(), handler );
             final Artifact found = mavenEmbedder.getLocalRepository().find( filter );
             if( !projects.contains( found.getArtifactId() ) ) {
-               addJarResource( repository, getFile( found ) );
+               final Resource resource = addJarResource( repository, getFile( found ) );
+               if( resource == null ) {
+                  LOG.warn( String.format( "Unable to add dependency: %s to OBR", dependency ) );
+               }
+               else {
+                  LOG.info( String.format( "Add dependency: %s to OBR", dependency ) );
+               }
             }
          }
          addAssemblyResource( repository, classesFolder.getAbsolutePath() );
@@ -122,7 +145,7 @@ public class TestAny {
       // 2. Gather all "external" artifacts that should be included
       // 3. Add all "workspace" artifacts to the repository
       // 4. Add all "external" artifacts to the repository
-      
+
       // obr:repos add file:///home/developer/Documents/tmp-repository3.xml
       // obr:list
       // obr:deploy yaas-commons
@@ -134,6 +157,40 @@ public class TestAny {
       }
       finally {
          writer.close();
+      }
+   }
+
+   @Test
+   public void testTransitiveDependencies() throws Exception {
+      RepositorySystem system = Booter.newRepositorySystem();
+      RepositorySystemSession session = Booter.newRepositorySystemSession( system );
+      org.eclipse.aether.artifact.Artifact artifact = new org.eclipse.aether.artifact.DefaultArtifact( "org.eclipse.aether:aether-impl:1.0.0.v20140518" );
+      DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.COMPILE );
+      CollectRequest collectRequest = new CollectRequest();
+      collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( artifact, JavaScopes.COMPILE ) );
+      collectRequest.setRepositories( Booter.newRepositories( system, session ) );
+      DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
+      List<ArtifactResult> artifactResults = system.resolveDependencies( session, dependencyRequest ).getArtifactResults();
+      for( ArtifactResult artifactResult : artifactResults ) {
+         System.out.println( artifactResult.getArtifact() + " resolved to " + artifactResult.getArtifact().getFile() );
+      }
+   }
+
+   @SuppressWarnings("unused")
+   private List<Dependency> resolveDependencies( File baseDir ) {
+      try {
+         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+         final PrintStream ps = new PrintStream( baos );
+         final MavenCli cli = new MavenCli();
+         final int result = cli.doMain( new String[]{ "dependency:resolve" }, baseDir.getAbsolutePath(), ps, ps );
+         final String content = baos.toString( "UTF-8" );
+         if( result != 0 ) {
+            throw new RuntimeException( content );
+         }
+         return parseDependencies( content );
+      }
+      catch( Exception exception ) {
+         throw new RuntimeException( String.format( "Failed to resolve dependencies for project: %s", baseDir ), exception );
       }
    }
 
