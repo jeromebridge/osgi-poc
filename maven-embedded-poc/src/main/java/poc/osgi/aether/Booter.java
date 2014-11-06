@@ -21,13 +21,13 @@ public class Booter {
       // return org.eclipse.aether.examples.plexus.PlexusRepositorySystemFactory.newRepositorySystem();
    }
 
-   public static DefaultRepositorySystemSession newRepositorySystemSession( RepositorySystem system )
+   public static DefaultRepositorySystemSession newRepositorySystemSession( RepositorySystem system, LocalRepository localRepo )
    {
-      DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
-      LocalRepository localRepo = new LocalRepository( "target/local-repo" );
+      final DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
+      // LocalRepository localRepo = new LocalRepository( "target/local-repo" );
       session.setLocalRepositoryManager( system.newLocalRepositoryManager( session, localRepo ) );
       session.setTransferListener( new ConsoleTransferListener() );
-      session.setRepositoryListener( new ConsoleRepositoryListener() );
+      // session.setRepositoryListener( new ConsoleRepositoryListener() );
       // uncomment to generate dirty trees
       // session.setDependencyGraphTransformer( null );
       return session;

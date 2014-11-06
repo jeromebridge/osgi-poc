@@ -26,11 +26,9 @@ public class ManualRepositorySystemFactory
       locator.addService( RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class );
       locator.addService( TransporterFactory.class, FileTransporterFactory.class );
       locator.addService( TransporterFactory.class, HttpTransporterFactory.class );
-      locator.setErrorHandler( new DefaultServiceLocator.ErrorHandler()
-      {
+      locator.setErrorHandler( new DefaultServiceLocator.ErrorHandler() {
          @Override
-         public void serviceCreationFailed( Class<?> type, Class<?> impl, Throwable exception )
-         {
+         public void serviceCreationFailed( Class<?> type, Class<?> impl, Throwable exception ) {
             exception.printStackTrace();
          }
       } );

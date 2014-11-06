@@ -22,6 +22,7 @@ import org.apache.felix.bundlerepository.impl.ResourceImpl;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.ArtifactHandler;
+import org.apache.maven.artifact.repository.ArtifactRepository;
 import org.apache.maven.cli.MavenCli;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.project.MavenProject;
@@ -29,6 +30,8 @@ import org.eclipse.aether.RepositorySystem;
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.collection.CollectRequest;
 import org.eclipse.aether.graph.DependencyFilter;
+import org.eclipse.aether.repository.LocalRepository;
+import org.eclipse.aether.repository.RemoteRepository;
 import org.eclipse.aether.resolution.ArtifactResult;
 import org.eclipse.aether.resolution.DependencyRequest;
 import org.eclipse.aether.util.artifact.JavaScopes;
@@ -106,7 +109,7 @@ public class TestAny {
       }
    }
 
-   @Test
+   // @Test
    public void testWorkspaceRepository() throws Exception {
       // Fixture
       final File repositoryFile = new File( "/home/developer/Documents/tmp-repository3.xml" );
@@ -118,7 +121,6 @@ public class TestAny {
       for( String projectName : projects ) {
          final File projectFolder = new File( workspaceFolder.getAbsolutePath() + File.separator + projectName );
          final File pomFile = new File( projectFolder.getAbsolutePath() + File.separator + "pom.xml" );
-         final File classesFolder = new File( projectFolder.getAbsolutePath() + File.separator + "bin/maven/classes" );
          final MavenRequest mavenRequest = new MavenRequest();
          mavenRequest.setPom( pomFile.getAbsolutePath() );
          final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
@@ -138,6 +140,7 @@ public class TestAny {
                }
             }
          }
+         final File classesFolder = new File( projectFolder.getAbsolutePath() + File.separator + "bin/maven/classes" );
          addAssemblyResource( repository, classesFolder.getAbsolutePath() );
       }
 
@@ -160,10 +163,169 @@ public class TestAny {
       }
    }
 
+   public static class MavenProjectHolder {
+      private MavenEmbedder embedder;
+      private MavenProject project;
+
+      public MavenProjectHolder( MavenEmbedder embedder, MavenProject project ) {
+         setEmbedder( embedder );
+         setProject( project );
+      }
+
+      public MavenEmbedder getEmbedder() {
+         return embedder;
+      }
+
+      public void setEmbedder( MavenEmbedder embedder ) {
+         this.embedder = embedder;
+      }
+
+      public MavenProject getProject() {
+         return project;
+      }
+
+      public void setProject( MavenProject project ) {
+         this.project = project;
+      }
+   }
+
    @Test
+   public void testWorkspaceRepository2() throws Exception {
+      // Fixture
+      final List<String> projectFilter = Arrays.asList( "yaas-commons" );
+      final File workspaceFolder = new File( "/home/developer/git/yet-another-admin-system" );
+      final File repositoryFile = new File( "/home/developer/Documents/tmp-repository4.xml" );
+
+      // Call
+      final RepositoryImpl repository = new RepositoryImpl();
+      final List<MavenProjectHolder> mavenProjects = new ArrayList<TestAny.MavenProjectHolder>();
+      final List<File> mavenProjectFolders = getMavenProjectFolders( workspaceFolder );
+      for( File mavenProjectFolder : mavenProjectFolders ) {
+         final File pomFile = new File( mavenProjectFolder.getAbsolutePath() + File.separator + "pom.xml" );
+         final MavenRequest mavenRequest = new MavenRequest();
+         mavenRequest.setPom( pomFile.getAbsolutePath() );
+         final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
+         final MavenProject project = mavenEmbedder.readProject( pomFile );
+         if( projectFilter.isEmpty() || projectFilter.contains( project.getArtifactId() ) ) {
+            mavenProjects.add( new MavenProjectHolder( mavenEmbedder, project ) );
+         }
+      }
+
+      for( MavenProjectHolder holder : mavenProjects ) {
+         // Assembly
+         final File classesFolder = new File( holder.getProject().getBuild().getOutputDirectory() );
+         addAssemblyResource( repository, classesFolder.getAbsolutePath() );
+
+         // Dependencies
+         final RepositorySystem system = Booter.newRepositorySystem();
+         final RepositorySystemSession session = Booter.newRepositorySystemSession( system, new LocalRepository( holder.getEmbedder().getLocalRepositoryPath() ) );
+         for( Dependency dependency : holder.getProject().getDependencies() ) {
+            org.eclipse.aether.artifact.Artifact filter = new org.eclipse.aether.artifact.DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getClassifier(), dependency.getType(), dependency.getVersion() );
+            final DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.RUNTIME );
+            final CollectRequest collectRequest = new CollectRequest();
+            collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( filter, JavaScopes.RUNTIME ) );
+            collectRequest.setRepositories( Booter.newRepositories( system, session ) );
+            for( ArtifactRepository remoteRepository : holder.getProject().getRemoteArtifactRepositories() ) {
+               collectRequest.addRepository( new RemoteRepository.Builder( remoteRepository.getId(), "default", remoteRepository.getUrl() ).build() );
+            }
+            final DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
+            final List<ArtifactResult> artifactResults = system.resolveDependencies( session, dependencyRequest ).getArtifactResults();
+            for( ArtifactResult artifactResult : artifactResults ) {
+               final Resource resource = addJarResource( repository, artifactResult.getArtifact().getFile() );
+               if( resource == null ) {
+                  LOG.warn( String.format( "Unable to add dependency: %s to OBR", dependency ) );
+               }
+               else {
+                  LOG.info( String.format( "Add dependency: %s to OBR", dependency ) );
+               }
+            }
+         }
+      }
+
+      final DataModelHelperImpl dmh = new DataModelHelperImpl();
+      final Writer writer = new FileWriter( repositoryFile );
+      try {
+         dmh.writeRepository( repository, writer );
+      }
+      finally {
+         writer.close();
+      }
+
+      // obr:repos add file:///home/developer/Documents/tmp-repository4.xml
+      // obr:deploy yaas-commons
+   }
+
+   //            final ArtifactRequest artifactRequst = new ArtifactRequest();
+   //            artifactRequst.setArtifact( filter );
+   //            artifactRequst.setRepositories( Booter.newRepositories( system, session ) );
+   //            for( ArtifactRepository repository : holder.getProject().getRemoteArtifactRepositories() ) {
+   //               artifactRequst.addRepository( new RemoteRepository.Builder( repository.getId(), "default", repository.getUrl() ).build() );
+   //            }
+   //            final ArtifactResult dependencyArtifactResult = system.resolveArtifact( session, artifactRequst );
+
+   private List<File> getMavenProjectFolders( File folder ) {
+      final List<File> result = new ArrayList<File>();
+      for( File subFolder : folder.listFiles() ) {
+         if( isMavenProject( subFolder ) ) {
+            result.add( subFolder );
+         }
+      }
+      return result;
+   }
+
+   private boolean isMavenProject( File folder ) {
+      boolean result = folder.exists();
+      result = result && folder.isDirectory();
+      result = result && new File( folder.getAbsolutePath() + File.separator + "pom.xml" ).exists();
+      return result;
+   }
+
+   // @Test
    public void testTransitiveDependencies() throws Exception {
-      RepositorySystem system = Booter.newRepositorySystem();
-      RepositorySystemSession session = Booter.newRepositorySystemSession( system );
+      @SuppressWarnings("unused")
+      final List<String> projects = Arrays.asList( "yaas-commons" );
+      final File pomFile = new File( getBasedir2() + "/yaas-commons" + "/pom.xml" );
+      final MavenRequest mavenRequest = new MavenRequest();
+      mavenRequest.setPom( pomFile.getAbsolutePath() );
+      final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
+      final MavenProject project = mavenEmbedder.readProject( pomFile );
+      final List<Dependency> dependencies = project.getDependencies();
+      final RepositorySystem system = Booter.newRepositorySystem();
+      final RepositorySystemSession session = Booter.newRepositorySystemSession( system, new LocalRepository( mavenEmbedder.getLocalRepositoryPath() ) );
+
+      for( Dependency dependency : dependencies ) {
+         System.out.println( "Add Dependency: " + dependency );
+         org.eclipse.aether.artifact.Artifact filter = new org.eclipse.aether.artifact.DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getClassifier(), dependency.getType(), dependency.getVersion() );
+         DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.RUNTIME );
+         CollectRequest collectRequest = new CollectRequest();
+         collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( filter, JavaScopes.RUNTIME ) );
+         collectRequest.setRepositories( Booter.newRepositories( system, session ) );
+         for( ArtifactRepository repository : project.getRemoteArtifactRepositories() ) {
+            collectRequest.addRepository( new RemoteRepository.Builder( repository.getId(), "default", repository.getUrl() ).build() );
+         }
+         DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
+         System.out.println( "Resolving Dependency: " + dependency );
+         List<ArtifactResult> artifactResults = system.resolveDependencies( session, dependencyRequest ).getArtifactResults();
+         for( ArtifactResult artifactResult : artifactResults ) {
+            System.out.println( "Add Dependency: " + artifactResult.getArtifact() );
+         }
+
+         //         final Artifact filter = new DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getVersion(), dependency.getScope(), dependency.getType(), dependency.getClassifier(), handler );
+         //         
+         //         
+         //         
+         //         final Artifact found = mavenEmbedder.getLocalRepository().find( filter );
+         //         if( !projects.contains( found.getArtifactId() ) ) {
+         //            //            final Resource resource = addJarResource( repository, getFile( found ) );
+         //            //            if( resource == null ) {
+         //            //               LOG.warn( String.format( "Unable to add dependency: %s to OBR", dependency ) );
+         //            //            }
+         //            //            else {
+         //            LOG.info( String.format( "Add dependency: %s to OBR", dependency ) );
+         //            //            }
+         //         }
+      }
+
       org.eclipse.aether.artifact.Artifact artifact = new org.eclipse.aether.artifact.DefaultArtifact( "org.eclipse.aether:aether-impl:1.0.0.v20140518" );
       DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.COMPILE );
       CollectRequest collectRequest = new CollectRequest();
