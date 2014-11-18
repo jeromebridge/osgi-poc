@@ -11,10 +11,14 @@ import java.io.Writer;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.apache.felix.bundlerepository.Repository;
 import org.apache.felix.bundlerepository.Resource;
 import org.apache.felix.bundlerepository.impl.DataModelHelperImpl;
 import org.apache.felix.bundlerepository.impl.RepositoryImpl;
@@ -189,70 +193,159 @@ public class TestAny {
       }
    }
 
+   private Repository createObrForWorkspace( File workspaceFolder, File repositoryFile ) {
+      return createObrForWorkspace( workspaceFolder, repositoryFile, new ArrayList<String>() );
+   }
+
+   private Repository createObrForWorkspace( File workspaceFolder, File repositoryFile, List<String> projectFilter ) {
+      try {
+         final Set<File> dependenciesAdded = new HashSet<File>();
+         final Set<File> dependenciesNotAdded = new HashSet<File>();
+
+         final RepositoryImpl repository = new RepositoryImpl();
+         final List<MavenProjectHolder> mavenProjects = new ArrayList<TestAny.MavenProjectHolder>();
+         final List<File> mavenProjectFolders = getMavenProjectFolders( workspaceFolder );
+         for( File mavenProjectFolder : mavenProjectFolders ) {
+            final File pomFile = new File( mavenProjectFolder.getAbsolutePath() + File.separator + "pom.xml" );
+            final MavenRequest mavenRequest = new MavenRequest();
+            mavenRequest.setPom( pomFile.getAbsolutePath() );
+            final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
+            final MavenProject project = mavenEmbedder.readProject( pomFile );
+            if( projectFilter == null || projectFilter.isEmpty() || projectFilter.contains( project.getArtifactId() ) ) {
+               mavenProjects.add( new MavenProjectHolder( mavenEmbedder, project ) );
+            }
+         }
+
+         for( MavenProjectHolder holder : mavenProjects ) {
+            // Assembly
+            final File classesFolder = new File( holder.getProject().getBuild().getOutputDirectory() );
+            if( ObrUtils.isOsgiBundle( classesFolder ) ) {
+               final Resource projectResource = addAssemblyResource( repository, classesFolder.getAbsolutePath() );
+               if( projectResource == null ) {
+                  LOG.warn( String.format( "Unable to add project: %s to OBR", classesFolder ) );
+                  dependenciesNotAdded.add( classesFolder );
+               }
+               else {
+                  LOG.info( String.format( "Add project: %s to OBR", classesFolder ) );
+                  dependenciesAdded.add( classesFolder );
+               }
+
+               // Dependencies
+               final RepositorySystem system = Booter.newRepositorySystem();
+               final RepositorySystemSession session = Booter.newRepositorySystemSession( system, new LocalRepository( holder.getEmbedder().getLocalRepositoryPath() ) );
+               for( Dependency dependency : holder.getProject().getDependencies() ) {
+                  org.eclipse.aether.artifact.Artifact filter = new org.eclipse.aether.artifact.DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getClassifier(), dependency.getType(), dependency.getVersion() );
+                  final DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.RUNTIME );
+                  final CollectRequest collectRequest = new CollectRequest();
+                  collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( filter, JavaScopes.RUNTIME ) );
+                  collectRequest.setRepositories( Booter.newRepositories( system, session ) );
+                  for( ArtifactRepository remoteRepository : holder.getProject().getRemoteArtifactRepositories() ) {
+                     collectRequest.addRepository( new RemoteRepository.Builder( remoteRepository.getId(), "default", remoteRepository.getUrl() ).build() );
+                  }
+                  final DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
+                  final List<ArtifactResult> artifactResults = system.resolveDependencies( session, dependencyRequest ).getArtifactResults();
+                  for( ArtifactResult artifactResult : artifactResults ) {
+                     if( !containsArtifact( mavenProjects, artifactResult ) ) {
+                        final Resource resource = addJarResource( repository, artifactResult.getArtifact().getFile() );
+                        if( resource == null ) {
+                           LOG.warn( String.format( "Unable to add dependency: %s to OBR", dependency ) );
+                           dependenciesNotAdded.add( artifactResult.getArtifact().getFile() );
+                        }
+                        else {
+                           LOG.info( String.format( "Add dependency: %s to OBR", dependency ) );
+                           dependenciesAdded.add( artifactResult.getArtifact().getFile() );
+                        }
+                     }
+                  }
+               }
+            }
+         }
+
+         final DataModelHelperImpl dmh = new DataModelHelperImpl();
+         final Writer writer = new FileWriter( repositoryFile );
+         try {
+            dmh.writeRepository( repository, writer );
+         }
+         finally {
+            writer.close();
+         }
+
+         printObrSummary( new ArrayList<File>( dependenciesAdded ), new ArrayList<File>( dependenciesNotAdded ) );
+
+         return repository;
+      }
+      catch( Throwable exception ) {
+         throw new RuntimeException( String.format( "Error creating repository for workspace: %s", workspaceFolder ), exception );
+      }
+   }
+
+   private void printObrSummary( List<File> dependenciesAdded, List<File> dependenciesNotAdded ) {
+      Collections.sort( dependenciesAdded );
+      Collections.sort( dependenciesNotAdded );
+      System.out.println( "Dependencies Added" );
+      System.out.println( "===============================================" );
+      for( File file : dependenciesAdded ) {
+         System.out.println( "   " + file );
+      }
+      System.out.println( "" );
+
+      System.out.println( "Dependencies Not Added" );
+      System.out.println( "===============================================" );
+      for( File file : dependenciesNotAdded ) {
+         System.out.println( "   " + file );
+      }
+      System.out.println( "" );
+
+   }
+
    @Test
    public void testWorkspaceRepository2() throws Exception {
       // Fixture
-      final List<String> projectFilter = Arrays.asList( "yaas-commons" );
+      final List<String> projectFilter = Arrays.asList( "yaas-commons", "yaas-xml" );
       final File workspaceFolder = new File( "/home/developer/git/yet-another-admin-system" );
       final File repositoryFile = new File( "/home/developer/Documents/tmp-repository4.xml" );
 
       // Call
-      final RepositoryImpl repository = new RepositoryImpl();
-      final List<MavenProjectHolder> mavenProjects = new ArrayList<TestAny.MavenProjectHolder>();
-      final List<File> mavenProjectFolders = getMavenProjectFolders( workspaceFolder );
-      for( File mavenProjectFolder : mavenProjectFolders ) {
-         final File pomFile = new File( mavenProjectFolder.getAbsolutePath() + File.separator + "pom.xml" );
-         final MavenRequest mavenRequest = new MavenRequest();
-         mavenRequest.setPom( pomFile.getAbsolutePath() );
-         final MavenEmbedder mavenEmbedder = new MavenEmbedder( Thread.currentThread().getContextClassLoader(), mavenRequest );
-         final MavenProject project = mavenEmbedder.readProject( pomFile );
-         if( projectFilter.isEmpty() || projectFilter.contains( project.getArtifactId() ) ) {
-            mavenProjects.add( new MavenProjectHolder( mavenEmbedder, project ) );
-         }
-      }
-
-      for( MavenProjectHolder holder : mavenProjects ) {
-         // Assembly
-         final File classesFolder = new File( holder.getProject().getBuild().getOutputDirectory() );
-         addAssemblyResource( repository, classesFolder.getAbsolutePath() );
-
-         // Dependencies
-         final RepositorySystem system = Booter.newRepositorySystem();
-         final RepositorySystemSession session = Booter.newRepositorySystemSession( system, new LocalRepository( holder.getEmbedder().getLocalRepositoryPath() ) );
-         for( Dependency dependency : holder.getProject().getDependencies() ) {
-            org.eclipse.aether.artifact.Artifact filter = new org.eclipse.aether.artifact.DefaultArtifact( dependency.getGroupId(), dependency.getArtifactId(), dependency.getClassifier(), dependency.getType(), dependency.getVersion() );
-            final DependencyFilter classpathFlter = DependencyFilterUtils.classpathFilter( JavaScopes.RUNTIME );
-            final CollectRequest collectRequest = new CollectRequest();
-            collectRequest.setRoot( new org.eclipse.aether.graph.Dependency( filter, JavaScopes.RUNTIME ) );
-            collectRequest.setRepositories( Booter.newRepositories( system, session ) );
-            for( ArtifactRepository remoteRepository : holder.getProject().getRemoteArtifactRepositories() ) {
-               collectRequest.addRepository( new RemoteRepository.Builder( remoteRepository.getId(), "default", remoteRepository.getUrl() ).build() );
-            }
-            final DependencyRequest dependencyRequest = new DependencyRequest( collectRequest, classpathFlter );
-            final List<ArtifactResult> artifactResults = system.resolveDependencies( session, dependencyRequest ).getArtifactResults();
-            for( ArtifactResult artifactResult : artifactResults ) {
-               final Resource resource = addJarResource( repository, artifactResult.getArtifact().getFile() );
-               if( resource == null ) {
-                  LOG.warn( String.format( "Unable to add dependency: %s to OBR", dependency ) );
-               }
-               else {
-                  LOG.info( String.format( "Add dependency: %s to OBR", dependency ) );
-               }
-            }
-         }
-      }
-
-      final DataModelHelperImpl dmh = new DataModelHelperImpl();
-      final Writer writer = new FileWriter( repositoryFile );
-      try {
-         dmh.writeRepository( repository, writer );
-      }
-      finally {
-         writer.close();
-      }
+      createObrForWorkspace( workspaceFolder, repositoryFile, projectFilter );
 
       // obr:repos add file:///home/developer/Documents/tmp-repository4.xml
-      // obr:deploy yaas-commons
+      // obr:deploy --start yaas-xml
+
+      // install assembly:/home/developer/git/yet-another-admin-system/yaas-commons/bin/maven/classes
+   }
+
+   @Test
+   public void testWorkspaceRepositoryForOsgiTools() throws Exception {
+      // Fixture
+      final File workspaceFolder = new File( "/home/developer/git/osgi-tools" );
+      final File repositoryFile = new File( "/home/developer/Documents/tmp-repository-osgi-tools.xml" );
+
+      // Call
+      createObrForWorkspace( workspaceFolder, repositoryFile );
+
+      // obr:repos add file:///home/developer/Documents/tmp-repository-osgi-tools.xml
+      // obr:deploy --start "OSGi Analyzer"
+      // obr:deploy --start "OSGi Maven Integration"
+      // obr:deploy --start "Aether Transport HTTP"
+      // obr:deploy --start "Aether Implementation"
+      // obr:deploy --start "Apache Apache HttpClient OSGi bundle"
+      // obr:deploy --start "Apache Apache HttpCore OSGi bundle"
+
+      // install mvn:commons-logging/commons-logging/1.2
+      // install mvn:org.apache.httpcomponents/httpclient-osgi/4.2.6
+
+      // obr:repos add http://repo.pennassurancesoftware.com/repository/snapshots/tools/osgi/obr-runtime/1.0.0-SNAPSHOT/obr-runtime-1.0.0-SNAPSHOT-repository.xml
+   }
+
+   private boolean containsArtifact( List<MavenProjectHolder> mavenProjects, ArtifactResult artifactResult ) {
+      boolean result = false;
+      for( MavenProjectHolder holder : mavenProjects ) {
+         if( holder.getProject().getArtifactId().equals( artifactResult.getArtifact().getArtifactId() ) ) {
+            result = true;
+            break;
+         }
+      }
+      return result;
    }
 
    //            final ArtifactRequest artifactRequst = new ArtifactRequest();
@@ -439,16 +532,18 @@ public class TestAny {
    }
 
    private ResourceImpl addJarResource( RepositoryImpl repository, File jarFile ) {
+      ResourceImpl resource = null;
       try {
-         final ResourceImpl resource = ( ResourceImpl )new DataModelHelperImpl().createResource( jarFile.toURL() );
+         resource = ( ResourceImpl )new DataModelHelperImpl().createResource( jarFile.toURL() );
          if( resource != null ) {
             repository.addResource( resource );
          }
          return resource;
       }
       catch( Exception exception ) {
-         throw new RuntimeException( String.format( "Error adding jar resource: %s", jarFile ), exception );
+         LOG.warn( String.format( "Error adding jar resource: %s", jarFile ), exception );
       }
+      return resource;
    }
 
    private ResourceImpl addAssemblyResource( RepositoryImpl repository, String bundleFolder ) {

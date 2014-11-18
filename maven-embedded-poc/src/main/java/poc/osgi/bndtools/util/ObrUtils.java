@@ -16,6 +16,11 @@ public class ObrUtils {
       return createResource( bundleFolder, bundleFolder.toURI() );
    }
 
+   public static boolean isOsgiBundle( final File bundleFolder ) {
+      final File manifestFile = new File( bundleFolder, JarFile.MANIFEST_NAME );
+      return manifestFile.exists();
+   }
+
    public static Resource createResource( final File bundleFolder, final URI uri ) {
       try {
          final File manifestFile = new File( bundleFolder, JarFile.MANIFEST_NAME );
