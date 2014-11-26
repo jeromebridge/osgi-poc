@@ -15,7 +15,10 @@
 
         <virgo.version>3.6.3.RELEASE</virgo.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
-        <pax.url.version>2.1.0</pax.url.version>
+        
+        <ops4j.version>1.5.0</ops4j.version>
+        <pax.url.version>2.2.0</pax.url.version>
+        <pax.swissbox.version>1.8.0</pax.swissbox.version>
     </properties>
 
     <repositories>
@@ -95,17 +98,17 @@
                                 <artifactItem>
                                     <groupId>org.ops4j.base</groupId>
                                     <artifactId>ops4j-base-lang</artifactId>
-                                    <version>1.4.0</version>
+                                    <version>${ops4j.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.base</groupId>
                                     <artifactId>ops4j-base-monitors</artifactId>
-                                    <version>1.4.0</version>
+                                    <version>${ops4j.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.base</groupId>
                                     <artifactId>ops4j-base-io</artifactId>
-                                    <version>1.4.0</version>
+                                    <version>${ops4j.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.codehaus.jackson</groupId>
@@ -115,27 +118,27 @@
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.swissbox</groupId>
                                     <artifactId>pax-swissbox-core</artifactId>
-                                    <version>1.7.1</version>
+                                    <version>${pax.swissbox.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.base</groupId>
                                     <artifactId>ops4j-base-util-property</artifactId>
-                                    <version>1.4.0</version>
+                                    <version>${ops4j.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.swissbox</groupId>
                                     <artifactId>pax-swissbox-property</artifactId>
-                                    <version>1.7.1</version>
+                                    <version>${pax.swissbox.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.swissbox</groupId>
                                     <artifactId>pax-swissbox-lifecycle</artifactId>
-                                    <version>1.7.1</version>
+                                    <version>${pax.swissbox.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.swissbox</groupId>
                                     <artifactId>pax-swissbox-tracker</artifactId>
-                                    <version>1.7.1</version>
+                                    <version>${pax.swissbox.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.ops4j.pax.url</groupId>
@@ -155,7 +158,7 @@
                                 <artifactItem>
                                     <groupId>org.ops4j.base</groupId>
                                     <artifactId>ops4j-base-net</artifactId>
-                                    <version>1.4.0</version>
+                                    <version>${ops4j.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.apache.felix</groupId>
