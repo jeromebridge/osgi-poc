@@ -9,16 +9,22 @@
     <name>Virgo Launcher</name>
 
     <properties>
+
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <virgo.version>3.6.3.RELEASE</virgo.version>
         <osgi.compendium.version>4.2.0</osgi.compendium.version>
-        
+
         <ops4j.version>1.5.0</ops4j.version>
         <pax.url.version>2.2.0</pax.url.version>
         <pax.swissbox.version>1.8.0</pax.swissbox.version>
+
+        <upgrade.spring>true</upgrade.spring>
+        <upgrade.spring.version>3.2.11.RELEASE</upgrade.spring.version>
+        <upgrade.aspectj.version>1.7.1</upgrade.aspectj.version>
+
     </properties>
 
     <repositories>
@@ -65,7 +71,7 @@
                 <executions>
                     <!-- Download Virgo Server -->
                     <execution>
-                        <id>unpack</id>
+                        <id>download-virgo</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -88,7 +94,7 @@
 
                     <!-- Install PAX URL -->
                     <execution>
-                        <id>copy-insdoc</id>
+                        <id>install-pax-url</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy</goal>
@@ -181,6 +187,118 @@
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
                     </execution>
+
+                    <!-- Spring Upgrade -->
+                    <execution>
+                        <id>upgrade-spring</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-aop</artifactId>
+                                    <version>${upgrade.spring.version}_3</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-aspects</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-beans</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-context</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-context-support</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-core</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-expression</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-jdbc</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-jms</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-orm</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-oxm</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-tx</artifactId>
+                                    <version>${upgrade.spring.version}_3</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-web</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-webmvc</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.spring-webmvc-portlet</artifactId>
+                                    <version>${upgrade.spring.version}_2</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/staging/spring-upgrade</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                    <!-- AspectJ Upgrade -->
+                    <execution>
+                        <id>upgrade-aspectj</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.aspectj</groupId>
+                                    <artifactId>com.springsource.org.aspectj.weaver</artifactId>
+                                    <version>${upgrade.aspectj.version}.RELEASE</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/staging/aspectj-upgrade</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -238,6 +356,24 @@
                             <source>${project.basedir}/src/main/scripts/UpdateProperties.groovy</source>
                         </configuration>
                     </execution>
+
+                    <!-- Upgrade Spring And AspectJ -->
+                    <execution>
+                        <id>upgrade-spring-and-aspectj</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <virgo.home>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}</virgo.home>
+                                <spring.upgrade.directory>${project.build.directory}/staging/spring-upgrade</spring.upgrade.directory>
+                                <spring.upgrade.conf.directory>${project.basedir}/src/main/upgrade/spring</spring.upgrade.conf.directory>
+                                <aspectj.upgrade.directory>${project.build.directory}/staging/aspectj-upgrade</aspectj.upgrade.directory>
+                            </properties>
+                            <source>${project.basedir}/src/main/scripts/UpgradeSpringAndAspectJ.groovy</source>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <classpath>
@@ -248,6 +384,10 @@
                         <element>
                             <groupId>commons-lang</groupId>
                             <artifactId>commons-lang</artifactId>
+                        </element>
+                        <element>
+                            <groupId>commons-io</groupId>
+                            <artifactId>commons-io</artifactId>
                         </element>
                     </classpath>
                 </configuration>
@@ -400,6 +540,7 @@
                 </plugins>
             </build>
         </profile>
+
     </profiles>
 
     <dependencies>
@@ -426,5 +567,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
     </dependencies>
 </project>

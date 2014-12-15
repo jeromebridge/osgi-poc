@@ -1,0 +1,19 @@
+Library-SymbolicName: org.springframework.spring
+Library-Version: 3.2.11.RELEASE
+Library-Name: Spring Framework
+Import-Bundle: 
+ org.apache.servicemix.bundles.spring-aop;version="[3.2.11.RELEASE_3, 3.2.11.RELEASE_3]",
+ org.apache.servicemix.bundles.spring-aspects;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-beans;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-context;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-context-support;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-core;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-expression;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-jdbc;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-jms;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-orm;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-oxm;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-tx;version="[3.2.11.RELEASE_3, 3.2.11.RELEASE_3]",
+ org.apache.servicemix.bundles.spring-web;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ org.apache.servicemix.bundles.spring-webmvc-portlet;version="[3.2.11.RELEASE_2, 3.2.11.RELEASE_2]",
+ com.springsource.org.aopalliance;version="[1.0.0, 1.0.0]"
