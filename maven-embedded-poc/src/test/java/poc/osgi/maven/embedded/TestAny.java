@@ -333,6 +333,16 @@ public class TestAny {
 
       // install mvn:commons-logging/commons-logging/1.2
       // install mvn:org.apache.httpcomponents/httpclient-osgi/4.2.6
+      // install mvn:org.liquibase/liquibase-osgi/3.2.0
+
+      // install mvn:org.eclipse.persistence/javax.persistence/2.1.0
+      // install mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.5.2
+      // install mvn:org.eclipse.persistence/org.eclipse.persistence.asm/2.5.2
+      // install mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.5.2
+
+      // m2e:deploy /home/developer/git/yet-another-admin-system yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception
+      // m2e:deploy -po /home/developer/git/yet-another-admin-system yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception
+      // m2e:deploy -do /home/developer/git/yet-another-admin-system yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception
 
       // obr:repos add http://repo.pennassurancesoftware.com/repository/snapshots/tools/osgi/obr-runtime/1.0.0-SNAPSHOT/obr-runtime-1.0.0-SNAPSHOT-repository.xml
    }

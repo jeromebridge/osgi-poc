@@ -25,6 +25,17 @@
         <upgrade.spring.version>3.2.11.RELEASE</upgrade.spring.version>
         <upgrade.aspectj.version>1.7.1</upgrade.aspectj.version>
 
+        <!-- User Region -->
+        <user.jpa.version>2.1.0</user.jpa.version>
+        <user.eclipselink.version>2.5.2</user.eclipselink.version>
+        <user.cdi.version>1.2</user.cdi.version>
+        <user.commons.io.version>2.4</user.commons.io.version>
+        <user.commons.lang3.version>3.1</user.commons.lang3.version>
+        <user.xmlbeans.version>2.4.0</user.xmlbeans.version>
+        <user.junit.version>4.11.0</user.junit.version>
+        <user.postgresql.jdbc4.version>8.3.604</user.postgresql.jdbc4.version>
+        <user.jaxb.version>2.2.10</user.jaxb.version>
+        <user.liquibase.version>3.2.0</user.liquibase.version>
     </properties>
 
     <repositories>
@@ -295,6 +306,97 @@
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.directory}/staging/aspectj-upgrade</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+
+                    <!-- User Region -->
+                    <execution>
+                        <id>setup-user-region</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>javax.persistence</artifactId>
+                                    <version>${user.jpa.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.core</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.jpa</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.jpa.jpql</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.asm</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.antlr</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.persistence</groupId>
+                                    <artifactId>org.eclipse.persistence.moxy</artifactId>
+                                    <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.enterprise</groupId>
+                                    <artifactId>cdi-api</artifactId>
+                                    <version>${user.cdi.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>commons-io</groupId>
+                                    <artifactId>commons-io</artifactId>
+                                    <version>${user.commons.io.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.commons</groupId>
+                                    <artifactId>commons-lang3</artifactId>
+                                    <version>${user.commons.lang3.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.xmlbeans</groupId>
+                                    <artifactId>com.springsource.org.apache.xmlbeans</artifactId>
+                                    <version>${user.xmlbeans.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.junit</groupId>
+                                    <artifactId>com.springsource.org.junit</artifactId>
+                                    <version>${user.junit.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.postgresql</groupId>
+                                    <artifactId>com.springsource.org.postgresql.jdbc4</artifactId>
+                                    <version>${user.postgresql.jdbc4.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.xml.bind</groupId>
+                                    <artifactId>jaxb-api</artifactId>
+                                    <version>${user.jaxb.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.liquibase</groupId>
+                                    <artifactId>liquibase-osgi</artifactId>
+                                    <version>${user.liquibase.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/staging/virgo-tomcat-server-${virgo.version}/repository/usr</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                         </configuration>
