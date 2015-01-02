@@ -339,10 +339,16 @@ public class TestAny {
       // install mvn:org.eclipse.persistence/org.eclipse.persistence.core/2.5.2
       // install mvn:org.eclipse.persistence/org.eclipse.persistence.asm/2.5.2
       // install mvn:org.eclipse.persistence/org.eclipse.persistence.jpa/2.5.2
+      
+      // install mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.spring-aspects/3.2.11.RELEASE_2
+      // install mvn:com.pennassurancesoftware.org.springframework/spring-aspects-osgi/3.2.11-SNAPSHOT
+      
+      // install mvn:org.glassfish/javax.faces/2.1.2
+      // install mvn:org.eclipse.virgo.mirrored/org.glassfish.com.sun.faces/2.1.18.v201304210537-virgo
 
-      // m2e:deploy /home/developer/git/yet-another-admin-system yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws
-      // m2e:deploy -po /home/developer/git/yet-another-admin-system yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws
-      // m2e:deploy -r /home/developer/git/yet-another-admin-system yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws
+      // m2e:deploy /home/developer/git/yet-another-admin-system spring-aspects-osgi yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws yaas-web
+      // m2e:deploy -po /home/developer/git/yet-another-admin-system spring-aspects-osgi yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws yaas-web
+      // m2e:deploy -r /home/developer/git/yet-another-admin-system spring-aspects-osgi yaas-annotations yaas-beans yaas-commons yaas-xml yaas-db yaas-config yaas-config-ul yaas-core yaas-business-ul yaas-dto yaas-dto-ul yaas-exception yaas-policy yaas-policy-ul yaas-test yaas-test-case-ul yaas-ws yaas-web
 
       // obr:repos add http://repo.pennassurancesoftware.com/repository/snapshots/tools/osgi/obr-runtime/1.0.0-SNAPSHOT/obr-runtime-1.0.0-SNAPSHOT-repository.xml
    }
