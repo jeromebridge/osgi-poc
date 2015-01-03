@@ -36,6 +36,7 @@
         <user.postgresql.jdbc4.version>8.3.604</user.postgresql.jdbc4.version>
         <user.jaxb.version>2.2.10</user.jaxb.version>
         <user.liquibase.version>3.2.0</user.liquibase.version>
+        <user.restlet.version>2.2.3</user.restlet.version>
     </properties>
 
     <repositories>
@@ -321,6 +322,111 @@
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
+                                    <groupId>javax.persistence</groupId>
+                                    <artifactId>com.springsource.javax.persistence</artifactId>
+                                    <version>2.0.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.velocity</groupId>
+                                    <artifactId>com.springsource.org.apache.velocity.tools.view</artifactId>
+                                    <version>1.4.0</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.dom4j</groupId>
+                                    <artifactId>com.springsource.org.dom4j</artifactId>
+                                    <version>1.6.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.glassfish</groupId>
+                                    <artifactId>javax.faces</artifactId>
+                                    <version>2.1.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.inject</groupId>
+                                    <artifactId>javax.inject</artifactId>
+                                    <version>1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.interceptor</groupId>
+                                    <artifactId>javax.interceptor-api</artifactId>
+                                    <version>1.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.transaction</groupId>
+                                    <artifactId>javax.transaction-api</artifactId>
+                                    <version>1.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>javax.ws.rs</groupId>
+                                    <artifactId>jsr311-api</artifactId>
+                                    <version>1.1.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.cglib</artifactId>
+                                    <version>3.1_1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-beanutils</artifactId>
+                                    <version>1.8.3_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-collections</artifactId>
+                                    <version>3.2.1_3</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-dbcp</artifactId>
+                                    <version>1.4_3</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-digester</artifactId>
+                                    <version>1.8_4</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-jxpath</artifactId>
+                                    <version>1.3_1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-lang</artifactId>
+                                    <version>2.4_6</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.commons-pool</artifactId>
+                                    <version>1.5.4_4</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.guava</artifactId>
+                                    <version>11.0.2_2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.jaxb-impl</artifactId>
+                                    <version>2.2.10_1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.oro</artifactId>
+                                    <version>2.0.8_6</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.reflections</artifactId>
+                                    <version>0.9.8_1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.servicemix.bundles</groupId>
+                                    <artifactId>org.apache.servicemix.bundles.velocity</artifactId>
+                                    <version>1.7_3</version>
+                                </artifactItem>
+                                <artifactItem>
                                     <groupId>org.eclipse.persistence</groupId>
                                     <artifactId>javax.persistence</artifactId>
                                     <version>${user.jpa.version}</version>
@@ -354,6 +460,51 @@
                                     <groupId>org.eclipse.persistence</groupId>
                                     <artifactId>org.eclipse.persistence.moxy</artifactId>
                                     <version>${user.eclipselink.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.virgo.mirrored</groupId>
+                                    <artifactId>org.glassfish.com.sun.faces</artifactId>
+                                    <version>2.1.18.v201304210537-virgo</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet.ext.servlet</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet.ext.xml</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet.ext.jaxrs</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet.ext.osgi</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.restlet.osgi</groupId>
+                                    <artifactId>org.restlet.ext.jaxb</artifactId>
+                                    <version>${user.restlet.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.testng</groupId>
+                                    <artifactId>testng</artifactId>
+                                    <version>6.5.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.atomikos</groupId>
+                                    <artifactId>transactions-osgi</artifactId>
+                                    <version>3.9.3</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>javax.enterprise</groupId>
