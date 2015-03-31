@@ -46,10 +46,16 @@ public final class Activator implements BundleActivator {
    private static final String LAYER_NAME = "Single Layer.";
 
    private Application application;
+   @SuppressWarnings("rawtypes")
    private ServiceRegistration moduleRegistration;
 
-   @SuppressWarnings("rawtypes")
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    public void start( BundleContext bundleContext ) throws Exception {
+      //      final Bundle bundle = bundleContext.getBundle();
+      //      final BundleWiring bundleWiring = bundle.adapt( BundleWiring.class );
+      //      final ClassLoader classLoader = bundleWiring.getClassLoader();
+      //      Thread.currentThread().setContextClassLoader( classLoader );
+
       LOGGER.info( "Starting Bundle [" + bundleContext.getBundle().getSymbolicName() + "]" );
 
       final Energy4Java boot = new Energy4Java();

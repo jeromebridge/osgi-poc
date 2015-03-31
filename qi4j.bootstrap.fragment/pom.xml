@@ -2,18 +2,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>poc.osgi</groupId>
-    <artifactId>qi4j.bundle</artifactId>
+    <artifactId>qi4j.bootstrap.fragment</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
-    <name>Qi4J Test Bundle</name>
+    <name>Qi4J Bootstrap Fragment</name>
 
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.7.1</aspectj.version>
-        <osgi.version>4.3.1</osgi.version>
 
         <qi4j.version>2.0</qi4j.version>
     </properties>
@@ -68,18 +67,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- OSGi -->
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-            <version>${osgi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.version}</version>
-        </dependency>
-
         <!-- Qi4j -->
         <dependency>
             <groupId>org.qi4j.core</groupId>
@@ -129,20 +116,12 @@
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Bundle-Activator>poc.osgi.qi4j.internal.Activator</Bundle-Activator>
+                        <Fragment-Host>org.qi4j.core.bootstrap;bundle-version=2.0.0</Fragment-Host>
                         <Embed-Dependency></Embed-Dependency>
                         <Embed-Transitive>false</Embed-Transitive>
-                        <Private-Package>poc.osgi.qi4j.internal.*</Private-Package>
-                        <Export-Package>poc.osgi.qi4j.api.*</Export-Package>
                         <Import-Package>
-                            org.qi4j.runtime,
-                            org.qi4j.runtime.*,
-                            org.qi4j.api.activation,
-                            org.qi4j.bootstrap,
-                            org.slf4j,
-                            *
+                            org.qi4j.runtime
                         </Import-Package>
-                        <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>
                     </instructions>
                 </configuration>
             </plugin>

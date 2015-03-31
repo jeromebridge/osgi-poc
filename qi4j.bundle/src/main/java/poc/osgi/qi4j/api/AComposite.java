@@ -7,5 +7,5 @@ public interface AComposite
 {
     @Optional Property<String> property();
 
-    String sayValue();
+    String sayValue(); 
 }
