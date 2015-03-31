@@ -1,0 +1,174 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>poc.osgi</groupId>
+    <artifactId>qi4j.bundle</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+
+    <name>Qi4J Test Bundle</name>
+
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <aspectj.version>1.7.1</aspectj.version>
+
+        <qi4j.version>2.0</qi4j.version>
+    </properties>
+
+
+    <repositories>
+        <repository>
+            <name>Internal Nexus Repository</name>
+            <id>internal-nexus-repository</id>
+            <url>http://repo.pennassurancesoftware.com/artifactory/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <name>Internal Nexus Snapshot Repository</name>
+            <id>internal-nexus-snapshot-repository</id>
+            <url>http://repo.pennassurancesoftware.com/artifactory/public-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>internal-nexus-release-repository</id>
+            <name>Internal Nexus Release Repository</name>
+            <url>http://repo.pennassurancesoftware.com/artifactory/libs-release-local/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>internal-nexus-snapshot-repository</id>
+            <name>Internal Nexus Snapshot Repository</name>
+            <url>http://repo.pennassurancesoftware.com/artifactory/libs-snapshot-local/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <dependencies>
+        <!-- AspectJ -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>com.springsource.org.aspectj.weaver</artifactId>
+            <version>${aspectj.version}.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Qi4j -->
+        <dependency>
+            <groupId>org.qi4j.core</groupId>
+            <artifactId>org.qi4j.core.bootstrap</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.qi4j.library</groupId>
+            <artifactId>org.qi4j.library.osgi</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.qi4j.core</groupId>
+            <artifactId>org.qi4j.core.runtime</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.qi4j.core</groupId>
+            <artifactId>org.qi4j.core.testsupport</artifactId>
+            <version>${qi4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+            <version>6.5.2</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <outputDirectory>bin/maven/classes</outputDirectory>
+        <testOutputDirectory>bin/maven/test-classes</testOutputDirectory>
+        <directory>dist</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <manifestLocation>${basedir}/bin/maven/classes/META-INF/</manifestLocation>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.artifactId}</Bundle-Name>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Bundle-Activator>poc.osgi.qi4j.internal.Activator</Bundle-Activator>
+                        <Embed-Dependency></Embed-Dependency>
+                        <Embed-Transitive>false</Embed-Transitive>
+                        <Private-Package>poc.osgi.qi4j.internal.*</Private-Package>
+                        <Export-Package>poc.osgi.qi4j.api.*</Export-Package>
+                        <Import-Package>
+                            *,
+                            
+                            org.qi4j.runtime
+                        </Import-Package>
+                        <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>
+                    </instructions>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-compile</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <verbose>true</verbose>
+                    <complianceLevel>${maven.compiler.target}</complianceLevel>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <Xlint>ignore</Xlint>
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <outxml>true</outxml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

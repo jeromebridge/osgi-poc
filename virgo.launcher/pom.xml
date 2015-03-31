@@ -37,6 +37,7 @@
         <user.jaxb.version>2.2.10</user.jaxb.version>
         <user.liquibase.version>3.2.0</user.liquibase.version>
         <user.restlet.version>2.2.3</user.restlet.version>
+        
     </properties>
 
     <repositories>
