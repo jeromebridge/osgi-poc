@@ -18,14 +18,11 @@
 
 package poc.osgi.qi4j.internal;
 
-import java.lang.reflect.Proxy;
 import java.util.Hashtable;
 
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.framework.wiring.BundleWiring;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
 import org.qi4j.bootstrap.ApplicationAssembler;
@@ -36,7 +33,7 @@ import org.qi4j.bootstrap.Energy4Java;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entitystore.helpers.MapEntityStore;
+import org.qi4j.library.osgi.OSGiServiceExporter;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,13 +50,12 @@ public final class Activator implements BundleActivator {
 
    @SuppressWarnings({ "rawtypes", "unchecked" })
    public void start( BundleContext bundleContext ) throws Exception {
-      final Bundle bundle = bundleContext.getBundle();
-      final BundleWiring bundleWiring = bundle.adapt( BundleWiring.class );
-      final ClassLoader classLoader = bundleWiring.getClassLoader();
-      Thread.currentThread().setContextClassLoader( null );
-      MapEntityStore.class.getName();
+      //      final Bundle bundle = bundleContext.getBundle();
+      //      final BundleWiring bundleWiring = bundle.adapt( BundleWiring.class );
+      //      final ClassLoader classLoader = bundleWiring.getClassLoader();
 
-      Proxy.getProxyClass( classLoader, MapEntityStore.class );
+      // WORKAROUND: You must do this because of the way ProxyGenerator gets the classloader to create a Proxy class
+      Thread.currentThread().setContextClassLoader( null );
 
       LOGGER.info( "Starting Bundle [" + bundleContext.getBundle().getSymbolicName() + "]" );
 
@@ -84,9 +80,9 @@ public final class Activator implements BundleActivator {
             final LayerAssembly layerAssembly = applicationAssembly.layer( LAYER_NAME );
             final ModuleAssembly moduleAssembly = layerAssembly.module( MODULE_NAME );
 
-            // moduleAssembly.values( APrivateComposite.class );
-            // moduleAssembly.entities( AnEntityComposite.class );
-            // moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
+            moduleAssembly.values( APrivateComposite.class );
+            moduleAssembly.entities( AnEntityComposite.class );
+            moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
             moduleAssembly.addServices( MemoryEntityStoreService.class );
             // moduleAssembly.addServices( MyQi4jService.class );
             moduleAssembly.addServices( UuidIdentityGeneratorService.class );
