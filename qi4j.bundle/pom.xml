@@ -135,14 +135,24 @@
                         <Private-Package>poc.osgi.qi4j.internal.*</Private-Package>
                         <Export-Package>poc.osgi.qi4j.api.*</Export-Package>
                         <Import-Package>
+                            org.slf4j,
+                            
                             org.qi4j.runtime,
                             org.qi4j.runtime.*,
                             org.qi4j.api.activation,
                             org.qi4j.bootstrap,
-                            org.slf4j,
+                            
+                            org.qi4j.api.entity,
+                            org.qi4j.io,
+                            
+                            org.qi4j.api.usecase,                            
+                            org.qi4j.spi.*,
+                            org.qi4j.spi.entitystore,
+                            
                             *
                         </Import-Package>
                         <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>
+                        <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
