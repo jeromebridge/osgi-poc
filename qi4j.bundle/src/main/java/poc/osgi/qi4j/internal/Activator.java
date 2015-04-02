@@ -55,7 +55,7 @@ public final class Activator implements BundleActivator {
       //      final ClassLoader classLoader = bundleWiring.getClassLoader();
 
       // WORKAROUND: You must do this because of the way ProxyGenerator gets the classloader to create a Proxy class
-      Thread.currentThread().setContextClassLoader( null );
+      // Thread.currentThread().setContextClassLoader( null ); // This causes web to fail to deploy
 
       LOGGER.info( "Starting Bundle [" + bundleContext.getBundle().getSymbolicName() + "]" );
 
