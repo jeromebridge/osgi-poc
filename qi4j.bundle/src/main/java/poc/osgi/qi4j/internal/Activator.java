@@ -22,6 +22,8 @@ import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import poc.osgi.qi4j.api.LibraryService;
+
 public final class Activator implements BundleActivator {
    private static final Logger LOGGER = LoggerFactory.getLogger( Activator.class );
 
@@ -79,8 +81,8 @@ public final class Activator implements BundleActivator {
             moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
             moduleAssembly.addServices( MemoryEntityStoreService.class );
             // moduleAssembly.addServices( MyQi4jService.class );
+            moduleAssembly.addServices( LibraryService.class ).withMixins( LibraryServiceMixin.class );
             moduleAssembly.addServices( UuidIdentityGeneratorService.class );
-
             return applicationAssembly;
          }
       };
