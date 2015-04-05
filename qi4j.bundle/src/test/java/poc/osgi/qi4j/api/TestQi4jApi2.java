@@ -29,7 +29,7 @@ public class TestQi4jApi2 {
    public Option[] config() throws MalformedURLException {
       return options(
             junitBundles(),
-
+            systemProperty( "pax.exam.framework" ).value( "equinox" ),
             systemProperty( "org.ops4j.pax.logging.DefaultServiceLog.level" ).value( "WARN" ) );
 
    }

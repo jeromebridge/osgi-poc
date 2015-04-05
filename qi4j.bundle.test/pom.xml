@@ -2,11 +2,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>poc.osgi</groupId>
-    <artifactId>qi4j.bundle</artifactId>
+    <artifactId>qi4j.bundle.test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
-    <name>Qi4J Test Bundle</name>
+    <name>Qi4J Test Bundle Test Cases</name>
 
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -14,8 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.7.1</aspectj.version>
         <osgi.version>4.3.1</osgi.version>
-
-        <pax.exam.version>4.4.0</pax.exam.version>
 
         <qi4j.version>2.0</qi4j.version>
     </properties>
@@ -82,28 +80,13 @@
             <version>${osgi.version}</version>
         </dependency>
 
-        <!-- Qi4j -->
+        <!-- Bundle -->
         <dependency>
-            <groupId>org.qi4j.core</groupId>
-            <artifactId>org.qi4j.core.bootstrap</artifactId>
-            <version>${qi4j.version}</version>
+            <groupId>poc.osgi</groupId>
+            <artifactId>qi4j.bundle</artifactId>
+            <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.qi4j.library</groupId>
-            <artifactId>org.qi4j.library.osgi</artifactId>
-            <version>${qi4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.qi4j.core</groupId>
-            <artifactId>org.qi4j.core.runtime</artifactId>
-            <version>${qi4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.qi4j.core</groupId>
-            <artifactId>org.qi4j.core.testsupport</artifactId>
-            <version>${qi4j.version}</version>
-            <scope>test</scope>
-        </dependency>
+
 
         <!-- Test -->
         <dependency>
@@ -112,89 +95,6 @@
             <scope>test</scope>
             <version>6.5.2</version>
         </dependency>
-
-        <!-- Test: PAX Exam -->
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-container-native</artifactId>
-            <version>${pax.exam.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-junit4</artifactId>
-            <version>${pax.exam.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-testng</artifactId>
-            <version>${pax.exam.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-link-mvn</artifactId>
-            <version>${pax.exam.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ops4j.pax.exam</groupId>
-            <artifactId>pax-exam-link-assembly</artifactId>
-            <version>${pax.exam.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-atinject_1.0_spec</artifactId>
-            <version>1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jta_1.1_spec</artifactId>
-            <version>1.1.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Testing: Equinox -->
-        <!-- <dependency>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>org.eclipse.osgi</artifactId>
-            <version>3.8.1.v20120830-144521</version>
-            <scope>test</scope>
-            </dependency> -->
-        <!-- <dependency>
-            <groupId>org.eclipse.tycho</groupId>
-            <artifactId>org.eclipse.osgi</artifactId>
-            <version>3.8.1.v20120830-144521</version>
-            <scope>test</scope>
-            </dependency> -->
-
-
-        <!-- Testing: Logging -->
-        <!-- <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.0.4</version>
-            <scope>test</scope>
-            </dependency>
-            <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.7</version>
-            <scope>test</scope>
-            </dependency>
-        -->
-
-        <!-- 
-        <dependency>
-            <groupId>org.eclipse.virgo.test</groupId>
-            <artifactId>org.eclipse.virgo.test.framework</artifactId>
-            <version>3.6.3.RELEASE</version>
-        </dependency>
-         -->
-
 
     </dependencies>
 
@@ -214,25 +114,13 @@
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Bundle-Activator>poc.osgi.qi4j.internal.Activator</Bundle-Activator>
+                        <Bundle-Activator>poc.osgi.qi4j.test.internal.Activator</Bundle-Activator>
                         <Embed-Dependency></Embed-Dependency>
                         <Embed-Transitive>false</Embed-Transitive>
-                        <Private-Package>poc.osgi.qi4j.internal.*</Private-Package>
-                        <Export-Package>poc.osgi.qi4j.api.*</Export-Package>
+                        <Private-Package>poc.osgi.qi4j.test.internal.*</Private-Package>
+                        <Export-Package>poc.osgi.qi4j.test.api.*</Export-Package>
                         <Import-Package>
                             org.slf4j,
-
-                            org.qi4j.runtime,
-                            org.qi4j.runtime.*,
-                            org.qi4j.api.activation,
-                            org.qi4j.bootstrap,
-
-                            org.qi4j.api.entity,
-                            org.qi4j.io,
-
-                            org.qi4j.api.usecase,
-                            org.qi4j.spi.*,
-                            org.qi4j.spi.entitystore,
 
                             *
                         </Import-Package>
