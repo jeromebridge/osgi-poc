@@ -9,6 +9,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.framework.wiring.BundleWiring;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
+import org.qi4j.api.value.ValueSerialization;
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
@@ -19,6 +20,7 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
 import org.qi4j.library.osgi.OSGiServiceExporter;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
+import org.qi4j.valueserialization.orgjson.OrgJsonValueSerializationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,10 +89,14 @@ public final class Activator implements BundleActivator {
 
             moduleAssembly.values( APrivateComposite.class );
             moduleAssembly.entities( AnEntityComposite.class, LibraryConfiguration.class );
+            moduleAssembly.addServices( OrgJsonValueSerializationService.class ).taggedWith( ValueSerialization.Formats.JSON );
             moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
             moduleAssembly.addServices( MemoryEntityStoreService.class );
             // moduleAssembly.addServices( MyQi4jService.class );
-            moduleAssembly.addServices( LibraryService.class ).withMixins( LibraryServiceMixin.class );
+            moduleAssembly.addServices( LibraryService.class )
+                  .withMixins( LibraryServiceMixin.class )
+                  .identifiedBy( "LibraryService" )
+                  .instantiateOnStartup();
             moduleAssembly.addServices( UuidIdentityGeneratorService.class );
             return applicationAssembly;
          }
