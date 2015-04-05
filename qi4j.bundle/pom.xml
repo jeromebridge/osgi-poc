@@ -15,6 +15,8 @@
         <aspectj.version>1.7.1</aspectj.version>
         <osgi.version>4.3.1</osgi.version>
 
+        <pax.exam.version>4.4.0</pax.exam.version>
+
         <qi4j.version>2.0</qi4j.version>
     </properties>
 
@@ -111,6 +113,81 @@
             <version>6.5.2</version>
         </dependency>
 
+        <!-- Test: PAX Exam -->
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-container-native</artifactId>
+            <version>${pax.exam.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-junit4</artifactId>
+            <version>${pax.exam.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-testng</artifactId>
+            <version>${pax.exam.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-link-mvn</artifactId>
+            <version>${pax.exam.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.exam</groupId>
+            <artifactId>pax-exam-link-assembly</artifactId>
+            <version>${pax.exam.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-atinject_1.0_spec</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jta_1.1_spec</artifactId>
+            <version>1.1.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testing: Equinox -->
+        <!-- <dependency>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.8.1.v20120830-144521</version>
+            <scope>test</scope>
+            </dependency> -->
+        <dependency>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.8.1.v20120830-144521</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- Testing: Logging -->
+        <!-- <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.0.4</version>
+            <scope>test</scope>
+            </dependency>
+            <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.7</version>
+            <scope>test</scope>
+            </dependency>
+        -->
+
+
     </dependencies>
 
     <build>
@@ -136,19 +213,19 @@
                         <Export-Package>poc.osgi.qi4j.api.*</Export-Package>
                         <Import-Package>
                             org.slf4j,
-                            
+
                             org.qi4j.runtime,
                             org.qi4j.runtime.*,
                             org.qi4j.api.activation,
                             org.qi4j.bootstrap,
-                            
+
                             org.qi4j.api.entity,
                             org.qi4j.io,
-                            
-                            org.qi4j.api.usecase,                            
+
+                            org.qi4j.api.usecase,
                             org.qi4j.spi.*,
                             org.qi4j.spi.entitystore,
-                            
+
                             *
                         </Import-Package>
                         <Require-Capability>osgi.ee;filter:="(&amp;(osgi.ee=JavaSE)(version=1.6))"</Require-Capability>

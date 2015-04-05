@@ -24,6 +24,14 @@ import org.slf4j.LoggerFactory;
 
 import poc.osgi.qi4j.api.LibraryService;
 
+/**
+ * TODO: JSON / XML Transform domain objects for web
+ * TODO: JSON / XML save to database
+ * TODO: JSON / XML post request objects
+ * TODO: Extendible domain objects
+ * TODO: Call OSGi Services to test them somehow
+ *
+ */
 public final class Activator implements BundleActivator {
    private static final Logger LOGGER = LoggerFactory.getLogger( Activator.class );
 
