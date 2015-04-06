@@ -17,8 +17,7 @@ public class HelloWorldBehaviourMixin implements HelloWorldBehaviour {
    HelloWorldState state;
 
    @Override
-   public String say()
-   {
-      return state.getPhrase() + " " + state.getName();
+   public String say() {
+      return state.phrase().get() + " " + state.name().get();
    }
 }

@@ -1,6 +1,8 @@
 package poc.osgi.qi4j.api.hello1;
 
+import org.qi4j.api.common.Optional;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.property.Property;
 
 /**
  * This interface contains only the state
@@ -11,11 +13,9 @@ import org.qi4j.api.mixin.Mixins;
  */
 @Mixins(HelloWorldStateMixin.class)
 public interface HelloWorldState {
-   void setPhrase( String phrase ) throws IllegalArgumentException;
 
-   String getPhrase();
+   @Optional
+   Property<String> phrase();
 
-   void setName( String name ) throws IllegalArgumentException;
-
-   String getName();
+   Property<String> name();
 }

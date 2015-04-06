@@ -3,6 +3,7 @@ package poc.osgi.qi4j.test.internal;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.qi4j.api.composite.TransientBuilder;
 import org.qi4j.api.structure.Module;
 import org.qi4j.api.value.ValueSerialization;
 
@@ -28,9 +29,12 @@ public class Activator implements BundleActivator {
       System.out.println( "Module Hello World Test" );
       System.out.println( "==============================================" );
 
-      final HelloWorld world = module.newTransient( HelloWorld.class );
-      world.setName( "Jerome" );
-      world.setPhrase( "what what!!" );
+      final TransientBuilder<HelloWorld> builder = module.newTransientBuilder( HelloWorld.class );
+      final HelloWorld prototype = builder.prototype();
+      prototype.name().set( "Jerome" );
+      prototype.phrase().set( "what what!!" );
+
+      final HelloWorld world = builder.newInstance();
       System.out.println( "say: " + world.say() );
 
       context.ungetService( reference );
