@@ -8,7 +8,7 @@ import org.qi4j.api.structure.Module;
 import org.qi4j.api.value.ValueSerialization;
 
 import poc.osgi.qi4j.api.LibraryService;
-import poc.osgi.qi4j.api.hello1.HelloWorld;
+import poc.osgi.qi4j.api.hello1.HelloWorldComposite;
 
 public class Activator implements BundleActivator {
    private BundleContext context;
@@ -29,12 +29,12 @@ public class Activator implements BundleActivator {
       System.out.println( "Module Hello World Test" );
       System.out.println( "==============================================" );
 
-      final TransientBuilder<HelloWorld> builder = module.newTransientBuilder( HelloWorld.class );
-      final HelloWorld prototype = builder.prototype();
+      final TransientBuilder<HelloWorldComposite> builder = module.newTransientBuilder( HelloWorldComposite.class );
+      final HelloWorldComposite prototype = builder.prototype();
       prototype.name().set( "Jerome" );
       prototype.phrase().set( "what what!!" );
 
-      final HelloWorld world = builder.newInstance();
+      final HelloWorldComposite world = builder.newInstance();
       System.out.println( "say: " + world.say() );
 
       context.ungetService( reference );

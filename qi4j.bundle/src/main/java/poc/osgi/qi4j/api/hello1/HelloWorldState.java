@@ -1,7 +1,6 @@
 package poc.osgi.qi4j.api.hello1;
 
 import org.qi4j.api.common.Optional;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.property.Property;
 
 /**
@@ -11,7 +10,6 @@ import org.qi4j.api.property.Property;
  * null is sent in as values. The parameters would have to be declared
  * as @Optional if null is allowed.
  */
-@Mixins(HelloWorldStateMixin.class)
 public interface HelloWorldState {
 
    @Optional
