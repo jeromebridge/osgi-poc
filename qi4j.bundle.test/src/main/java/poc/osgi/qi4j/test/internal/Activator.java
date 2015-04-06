@@ -24,6 +24,7 @@ public class Activator implements BundleActivator {
       System.out.println( "library service: " + library.get() );
 
       library.get().borrowBook( "Jerome", "test" );
+      System.out.println( library.get().borrowBook( " Kent Beck", " Extreme Programming Explained" ) );
 
       context.ungetService( reference );
    }

@@ -20,9 +20,7 @@ package poc.osgi.qi4j.api;
 import org.qi4j.api.property.Property;
 import org.qi4j.api.value.ValueComposite;
 
-public interface Book
-      extends ValueComposite
-{
+public interface Book extends ValueComposite {
    Property<String> title();
 
    Property<String> author();

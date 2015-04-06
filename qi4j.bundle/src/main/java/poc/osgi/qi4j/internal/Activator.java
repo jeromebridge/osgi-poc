@@ -24,6 +24,7 @@ import org.qi4j.valueserialization.orgjson.OrgJsonValueSerializationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import poc.osgi.qi4j.api.Book;
 import poc.osgi.qi4j.api.LibraryConfiguration;
 import poc.osgi.qi4j.api.LibraryService;
 
@@ -87,7 +88,7 @@ public final class Activator implements BundleActivator {
             final LayerAssembly layerAssembly = applicationAssembly.layer( LAYER_NAME );
             final ModuleAssembly moduleAssembly = layerAssembly.module( MODULE_NAME );
 
-            moduleAssembly.values( APrivateComposite.class );
+            moduleAssembly.values( APrivateComposite.class, Book.class );
             moduleAssembly.entities( AnEntityComposite.class, LibraryConfiguration.class );
             moduleAssembly.addServices( OrgJsonValueSerializationService.class ).taggedWith( ValueSerialization.Formats.JSON );
             moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
