@@ -32,6 +32,7 @@ import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourConcern;
 import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourMixin;
 import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourSideEffect;
 import poc.osgi.qi4j.api.hello1.HelloWorldComposite;
+import poc.osgi.qi4j.api.hello2.HelloWorldComposite2;
 
 /**
  * TODO: Demonstrate extendible domain object
@@ -115,6 +116,7 @@ public final class Activator implements BundleActivator {
                   .withMixins( HelloWorldBehaviourMixin.class, GenericPropertyMixin.class )
                   .withConcerns( HelloWorldBehaviourConcern.class )
                   .withSideEffects( HelloWorldBehaviourSideEffect.class );
+            moduleAssembly.transients( HelloWorldComposite2.class );
             return applicationAssembly;
          }
       };

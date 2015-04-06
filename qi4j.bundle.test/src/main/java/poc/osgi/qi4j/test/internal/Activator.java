@@ -9,6 +9,8 @@ import org.qi4j.api.value.ValueSerialization;
 
 import poc.osgi.qi4j.api.LibraryService;
 import poc.osgi.qi4j.api.hello1.HelloWorldComposite;
+import poc.osgi.qi4j.api.hello2.HelloWorldComposite2;
+import poc.osgi.qi4j.api.hello2.HelloWorldState2;
 
 public class Activator implements BundleActivator {
    private BundleContext context;
@@ -19,6 +21,26 @@ public class Activator implements BundleActivator {
       testThroughQi4jModule();
       testThroughOsgiService();
       testHelloThroughModule();
+      testHello2ThroughModule();
+   }
+
+   private void testHello2ThroughModule() {
+      final ServiceReference<Module> reference = context.<Module> getServiceReference( Module.class );
+      final Module module = ( Module )context.getService( reference );
+
+      System.out.println( "" );
+      System.out.println( "Module Hello World Test 2" );
+      System.out.println( "==============================================" );
+
+      final TransientBuilder<HelloWorldComposite2> builder = module.newTransientBuilder( HelloWorldComposite2.class );
+      final HelloWorldState2 prototype = builder.prototypeFor( HelloWorldState2.class );
+      prototype.name().set( "Jerome" );
+      prototype.phrase().set( "what what!!" );
+
+      final HelloWorldComposite2 world = builder.newInstance();
+      System.out.println( "say: " + world.say() );
+
+      context.ungetService( reference );
    }
 
    private void testHelloThroughModule() {
