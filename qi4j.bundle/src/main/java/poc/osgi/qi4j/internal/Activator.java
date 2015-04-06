@@ -90,12 +90,16 @@ public final class Activator implements BundleActivator {
 
             moduleAssembly.values( APrivateComposite.class, Book.class );
             moduleAssembly.entities( AnEntityComposite.class, LibraryConfiguration.class );
-            moduleAssembly.addServices( OrgJsonValueSerializationService.class ).taggedWith( ValueSerialization.Formats.JSON );
-            moduleAssembly.addServices( OSGiServiceExporter.class ).setMetaInfo( bundleContext );
+            moduleAssembly.addServices( OrgJsonValueSerializationService.class )
+                  .taggedWith( ValueSerialization.Formats.JSON );
+            moduleAssembly.addServices( OSGiServiceExporter.class )
+                  .setMetaInfo( bundleContext )
+                  .instantiateOnStartup();
             moduleAssembly.addServices( MemoryEntityStoreService.class );
             // moduleAssembly.addServices( MyQi4jService.class );
             moduleAssembly.addServices( LibraryService.class )
                   .withMixins( LibraryServiceMixin.class )
+                  .setMetaInfo( bundleContext )
                   .identifiedBy( "LibraryService" )
                   .instantiateOnStartup();
             moduleAssembly.addServices( UuidIdentityGeneratorService.class );
