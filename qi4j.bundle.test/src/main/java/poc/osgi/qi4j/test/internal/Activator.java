@@ -7,6 +7,7 @@ import org.qi4j.api.structure.Module;
 import org.qi4j.api.value.ValueSerialization;
 
 import poc.osgi.qi4j.api.LibraryService;
+import poc.osgi.qi4j.api.hello1.HelloWorld;
 
 public class Activator implements BundleActivator {
    private BundleContext context;
@@ -16,13 +17,29 @@ public class Activator implements BundleActivator {
       this.context = context;
       testThroughQi4jModule();
       testThroughOsgiService();
+      testHelloThroughModule();
+   }
+
+   private void testHelloThroughModule() {
+      final ServiceReference<Module> reference = context.<Module> getServiceReference( Module.class );
+      final Module module = ( Module )context.getService( reference );
+
+      System.out.println( "" );
+      System.out.println( "Module Hello World Test" );
+      System.out.println( "==============================================" );
+
+      final HelloWorld world = module.newTransient( HelloWorld.class );
+      world.setName( "Jerome" );
+      world.setPhrase( "what what!!" );
+      System.out.println( "say: " + world.say() );
+
+      context.ungetService( reference );
    }
 
    private void testThroughOsgiService() {
       final ServiceReference<LibraryService> reference = context.<LibraryService> getServiceReference( LibraryService.class );
-
       final LibraryService library = ( LibraryService )context.getService( reference );
-      
+
       System.out.println( "" );
       System.out.println( "OSGi Service Test" );
       System.out.println( "==============================================" );

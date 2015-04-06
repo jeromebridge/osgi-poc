@@ -27,13 +27,19 @@ import org.slf4j.LoggerFactory;
 import poc.osgi.qi4j.api.Book;
 import poc.osgi.qi4j.api.LibraryConfiguration;
 import poc.osgi.qi4j.api.LibraryService;
+import poc.osgi.qi4j.api.hello1.HelloWorld;
+import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourConcern;
+import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourSideEffect;
 
 /**
+ * TODO: Demonstrate extendible domain object
+ * TODO: Demonstrate extendible request object
+ * TODO: Demonstrate how to expose object as web services
  * TODO: JSON / XML Transform domain objects for web
  * TODO: JSON / XML save to database
  * TODO: JSON / XML post request objects
  * TODO: Extendible domain objects
- * TODO: Call OSGi Services to test them somehow
+ * DONE: Call OSGi Services to test them somehow -- using test bundle to call services
  *
  */
 public final class Activator implements BundleActivator {
@@ -103,6 +109,9 @@ public final class Activator implements BundleActivator {
                   .identifiedBy( "LibraryService" )
                   .instantiateOnStartup();
             moduleAssembly.addServices( UuidIdentityGeneratorService.class );
+            moduleAssembly.transients( HelloWorld.class )
+                  .withConcerns( HelloWorldBehaviourConcern.class )
+                  .withSideEffects( HelloWorldBehaviourSideEffect.class );
             return applicationAssembly;
          }
       };
