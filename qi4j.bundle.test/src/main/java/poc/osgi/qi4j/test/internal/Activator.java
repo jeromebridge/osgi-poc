@@ -5,9 +5,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.qi4j.api.composite.TransientBuilder;
 import org.qi4j.api.structure.Module;
-import org.qi4j.api.value.ValueSerialization;
 
 import poc.osgi.qi4j.api.LibraryService;
+import poc.osgi.qi4j.api.entity.CarEntityFactoryService;
+import poc.osgi.qi4j.api.entity.Manufacturer;
+import poc.osgi.qi4j.api.entity.ManufacturerRepositoryService;
 import poc.osgi.qi4j.api.hello1.HelloWorldComposite;
 import poc.osgi.qi4j.api.hello2.HelloWorldComposite2;
 import poc.osgi.qi4j.api.hello2.HelloWorldState2;
@@ -22,6 +24,27 @@ public class Activator implements BundleActivator {
       testThroughOsgiService();
       testHelloThroughModule();
       testHello2ThroughModule();
+      testEntityThroughOsgiService();
+   }
+
+   private void testEntityThroughOsgiService() {
+      final ServiceReference<CarEntityFactoryService> reference = context.<CarEntityFactoryService> getServiceReference( CarEntityFactoryService.class );
+      final CarEntityFactoryService service = ( CarEntityFactoryService )context.getService( reference );
+
+      final ServiceReference<ManufacturerRepositoryService> reference2 = context.<ManufacturerRepositoryService> getServiceReference( ManufacturerRepositoryService.class );
+      final ManufacturerRepositoryService service2 = ( ManufacturerRepositoryService )context.getService( reference2 );
+
+      System.out.println( "" );
+      System.out.println( "Entity Test" );
+      System.out.println( "==============================================" );
+
+      final Manufacturer manufacturer = service2.findByIdentity( "blah" );
+      System.out.println( "Manufacturer: " + manufacturer );
+
+      service.create( manufacturer, "toyota" );
+
+      context.ungetService( reference );
+
    }
 
    private void testHello2ThroughModule() {
@@ -83,14 +106,14 @@ public class Activator implements BundleActivator {
       final Module service = ( Module )context.getService( reference );
 
       final org.qi4j.api.service.ServiceReference<LibraryService> library = service.findService( LibraryService.class );
-      final org.qi4j.api.service.ServiceReference<ValueSerialization> serialization = service.findService( ValueSerialization.class );
+      // final org.qi4j.api.service.ServiceReference<ValueSerialization> serialization = service.findService( ValueSerialization.class );
 
       System.out.println( "" );
       System.out.println( "Module Test" );
       System.out.println( "==============================================" );
 
       System.out.println( service.name() );
-      System.out.println( "serialization: " + serialization.get() );
+      // System.out.println( "serialization: " + serialization.get() );
       System.out.println( "library service: " + library.get() );
 
       library.get().borrowBook( "Jerome", "test" );

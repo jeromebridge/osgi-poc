@@ -94,6 +94,16 @@
             <version>${qi4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.qi4j.library</groupId>
+            <artifactId>org.qi4j.library.sql</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.qi4j.extension</groupId>
+            <artifactId>org.qi4j.extension.entitystore-sql</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.qi4j.core</groupId>
             <artifactId>org.qi4j.core.runtime</artifactId>
             <version>${qi4j.version}</version>
@@ -187,13 +197,13 @@
             </dependency>
         -->
 
-        <!-- 
-        <dependency>
+        <!--
+            <dependency>
             <groupId>org.eclipse.virgo.test</groupId>
             <artifactId>org.eclipse.virgo.test.framework</artifactId>
             <version>3.6.3.RELEASE</version>
-        </dependency>
-         -->
+            </dependency>
+        -->
 
 
     </dependencies>
@@ -233,6 +243,7 @@
                             org.qi4j.api.usecase,
                             org.qi4j.spi.*,
                             org.qi4j.spi.entitystore,
+                            org.qi4j.entitystore.sql.assembly,
 
                             *
                         </Import-Package>

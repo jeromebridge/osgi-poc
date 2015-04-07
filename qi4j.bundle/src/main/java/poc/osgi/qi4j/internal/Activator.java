@@ -1,12 +1,19 @@
 package poc.osgi.qi4j.internal;
 
+import java.sql.SQLException;
 import java.util.Hashtable;
+import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.framework.wiring.BundleWiring;
+import org.osgi.service.jdbc.DataSourceFactory;
+import org.qi4j.api.common.Visibility;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
 import org.qi4j.api.value.ValueSerialization;
@@ -18,7 +25,10 @@ import org.qi4j.bootstrap.Energy4Java;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
+import org.qi4j.entitystore.sql.assembly.H2SQLEntityStoreAssembler;
 import org.qi4j.library.osgi.OSGiServiceExporter;
+import org.qi4j.library.sql.assembly.ExternalDataSourceAssembler;
+import org.qi4j.library.sql.datasource.DataSources;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 import org.qi4j.valueserialization.orgjson.OrgJsonValueSerializationService;
 import org.slf4j.Logger;
@@ -27,6 +37,11 @@ import org.slf4j.LoggerFactory;
 import poc.osgi.qi4j.api.Book;
 import poc.osgi.qi4j.api.LibraryConfiguration;
 import poc.osgi.qi4j.api.LibraryService;
+import poc.osgi.qi4j.api.entity.AccidentValue;
+import poc.osgi.qi4j.api.entity.CarEntity;
+import poc.osgi.qi4j.api.entity.CarEntityFactoryService;
+import poc.osgi.qi4j.api.entity.ManufacturerEntity;
+import poc.osgi.qi4j.api.entity.ManufacturerRepositoryService;
 import poc.osgi.qi4j.api.hello1.GenericPropertyMixin;
 import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourConcern;
 import poc.osgi.qi4j.api.hello1.HelloWorldBehaviourMixin;
@@ -35,11 +50,11 @@ import poc.osgi.qi4j.api.hello1.HelloWorldComposite;
 import poc.osgi.qi4j.api.hello2.HelloWorldComposite2;
 
 /**
+ * TODO: JSON / XML save to database
  * TODO: Demonstrate extendible domain object
  * TODO: Demonstrate extendible request object
  * TODO: Demonstrate how to expose object as web services
  * TODO: JSON / XML Transform domain objects for web
- * TODO: JSON / XML save to database
  * TODO: JSON / XML post request objects
  * TODO: Extendible domain objects
  * DONE: Call OSGi Services to test them somehow -- using test bundle to call services
@@ -49,11 +64,13 @@ public final class Activator implements BundleActivator {
    private static final Logger LOGGER = LoggerFactory.getLogger( Activator.class );
 
    private static final String MODULE_NAME = "Single Module.";
+   private static final String MODULE_CONFIG = "Config";
    private static final String LAYER_NAME = "Single Layer.";
 
    private Application application;
    @SuppressWarnings("rawtypes")
    private ServiceRegistration moduleRegistration;
+   private DataSource ds;
 
    @SuppressWarnings({ "rawtypes", "unchecked" })
    public void start( BundleContext bundleContext ) throws Exception {
@@ -63,6 +80,8 @@ public final class Activator implements BundleActivator {
       final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
       System.out.println( "Bundle Classloader: " + classLoader );
       System.out.println( "Context Classloader: " + contextClassLoader );
+
+      setupDataSource( bundleContext );
 
       try {
          // WORKAROUND: You must do this because of the way ProxyGenerator gets the classloader to create a Proxy class
@@ -90,33 +109,81 @@ public final class Activator implements BundleActivator {
       }
    }
 
+   private void setupDataSource( BundleContext bundleContext ) throws SQLException {
+      final ServiceReference<DataSourceFactory> reference = bundleContext.<DataSourceFactory> getServiceReference( DataSourceFactory.class );
+      final DataSourceFactory dsf = ( DataSourceFactory )bundleContext.getService( reference );
+      final Properties properties = new Properties();
+      properties.put( "url", "jdbc:h2:mem:qi4j_poc;DB_CLOSE_DELAY=-1" );
+      properties.put( "user", "qi4j-user" );
+      properties.put( "password", "password" );
+      ds = dsf.createDataSource( properties );
+   }
+
    private ApplicationAssembler getApplicationAssembler( final BundleContext bundleContext ) {
       return new ApplicationAssembler() {
          public ApplicationAssembly assemble( ApplicationAssemblyFactory applicationFactory ) throws AssemblyException {
             final ApplicationAssembly applicationAssembly = applicationFactory.newApplicationAssembly();
             final LayerAssembly layerAssembly = applicationAssembly.layer( LAYER_NAME );
-            final ModuleAssembly moduleAssembly = layerAssembly.module( MODULE_NAME );
 
-            moduleAssembly.values( APrivateComposite.class, Book.class );
-            moduleAssembly.entities( AnEntityComposite.class, LibraryConfiguration.class );
-            moduleAssembly.addServices( OrgJsonValueSerializationService.class )
+            final ModuleAssembly module = layerAssembly.module( MODULE_NAME );
+            final ModuleAssembly config = layerAssembly.module( MODULE_CONFIG );
+            config.addServices( OrgJsonValueSerializationService.class )
                   .taggedWith( ValueSerialization.Formats.JSON );
-            moduleAssembly.addServices( OSGiServiceExporter.class )
+            config.addServices( MemoryEntityStoreService.class ).instantiateOnStartup();
+
+            //             config.entities( SQLConfiguration.class ).visibleIn( Visibility.layer );
+
+            // H2 Entity Store
+            new ExternalDataSourceAssembler( ds ).
+                  visibleIn( Visibility.module ).
+                  identifiedBy( "h2-datasource" ).
+                  withCircuitBreaker( DataSources.newDataSourceCircuitBreaker() ).
+                  assemble( module );
+
+            new H2SQLEntityStoreAssembler().
+                  visibleIn( Visibility.application ).
+                  withConfigVisibility( Visibility.layer ).
+                  withConfig( config ).
+                  assemble( module );
+
+            module.addServices( OrgJsonValueSerializationService.class )
+                  .taggedWith( ValueSerialization.Formats.JSON );
+
+            //            final SQLConfiguration config = moduleAssembly.forMixin( SQLConfiguration.class ).declareDefaults();
+            //            config.schemaName().set( "poc" );
+
+            //            new LiquibaseAssembler( Visibility.module ).
+            //                  withConfigIn( configModule, Visibility.layer ).
+            //                  assemble( module );
+
+            module.values( APrivateComposite.class, Book.class );
+            module.entities( AnEntityComposite.class, LibraryConfiguration.class );
+            //            moduleAssembly.addServices( OrgJsonValueSerializationService.class )
+            //                  .taggedWith( ValueSerialization.Formats.JSON );
+
+            // new OrgJsonValueSerializationAssembler().assemble( moduleAssembly );
+
+            module.addServices( OSGiServiceExporter.class )
                   .setMetaInfo( bundleContext )
                   .instantiateOnStartup();
-            moduleAssembly.addServices( MemoryEntityStoreService.class );
+            //            moduleAssembly.addServices( MemoryEntityStoreService.class );
             // moduleAssembly.addServices( MyQi4jService.class );
-            moduleAssembly.addServices( LibraryService.class )
+            module.addServices( LibraryService.class )
                   .withMixins( LibraryServiceMixin.class )
                   .setMetaInfo( bundleContext )
-                  .identifiedBy( "LibraryService" )
-                  .instantiateOnStartup();
-            moduleAssembly.addServices( UuidIdentityGeneratorService.class );
-            moduleAssembly.transients( HelloWorldComposite.class )
+                  .identifiedBy( "LibraryService" );//.instantiateOnStartup();
+            module.addServices( UuidIdentityGeneratorService.class );
+            module.transients( HelloWorldComposite.class )
                   .withMixins( HelloWorldBehaviourMixin.class, GenericPropertyMixin.class )
                   .withConcerns( HelloWorldBehaviourConcern.class )
                   .withSideEffects( HelloWorldBehaviourSideEffect.class );
-            moduleAssembly.transients( HelloWorldComposite2.class );
+            module.transients( HelloWorldComposite2.class );
+
+            module.entities( CarEntity.class, ManufacturerEntity.class );
+            module.values( AccidentValue.class );
+            module.addServices( CarEntityFactoryService.class, ManufacturerRepositoryService.class )
+                  .setMetaInfo( bundleContext );
+
             return applicationAssembly;
          }
       };
@@ -128,6 +195,7 @@ public final class Activator implements BundleActivator {
 
       moduleRegistration = null;
       application = null;
+      ds = null;
    }
 
 }
