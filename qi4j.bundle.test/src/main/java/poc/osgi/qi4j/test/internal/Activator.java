@@ -38,7 +38,7 @@ public class Activator implements BundleActivator {
       System.out.println( "Entity Test" );
       System.out.println( "==============================================" );
 
-      final Manufacturer manufacturer = service2.findByIdentity( "blah" );
+      final Manufacturer manufacturer = service2.findByName( "blah" );
       System.out.println( "Manufacturer: " + manufacturer );
 
       service.create( manufacturer, "toyota" );

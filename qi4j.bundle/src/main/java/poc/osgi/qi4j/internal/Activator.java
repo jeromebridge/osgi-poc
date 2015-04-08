@@ -14,8 +14,10 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.framework.wiring.BundleWiring;
 import org.osgi.service.jdbc.DataSourceFactory;
 import org.qi4j.api.common.Visibility;
+import org.qi4j.api.entity.EntityBuilder;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.value.ValueSerialization;
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
@@ -33,13 +35,17 @@ import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 import org.qi4j.valueserialization.orgjson.OrgJsonValueSerializationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sql.generation.api.vendor.H2Vendor;
+import org.sql.generation.api.vendor.SQLVendorProvider;
 
 import poc.osgi.qi4j.api.Book;
+import poc.osgi.qi4j.api.H2SQLIndexQueryAssembler;
 import poc.osgi.qi4j.api.LibraryConfiguration;
 import poc.osgi.qi4j.api.LibraryService;
 import poc.osgi.qi4j.api.entity.AccidentValue;
 import poc.osgi.qi4j.api.entity.CarEntity;
 import poc.osgi.qi4j.api.entity.CarEntityFactoryService;
+import poc.osgi.qi4j.api.entity.Manufacturer;
 import poc.osgi.qi4j.api.entity.ManufacturerEntity;
 import poc.osgi.qi4j.api.entity.ManufacturerRepositoryService;
 import poc.osgi.qi4j.api.hello1.GenericPropertyMixin;
@@ -96,8 +102,17 @@ public final class Activator implements BundleActivator {
          LOGGER.info( "Activating application." );
          application.activate();
 
-         Module module = application.findModule( LAYER_NAME, MODULE_NAME );
+         final Module module = application.findModule( LAYER_NAME, MODULE_NAME );
          LOGGER.info( "Find module [" + LAYER_NAME + ", " + MODULE_NAME + "] isFound [" + ( module != null ) + "]" );
+
+         final UnitOfWork uow = module.newUnitOfWork();
+         final EntityBuilder<Manufacturer> builder = uow.newEntityBuilder( Manufacturer.class );
+         final Manufacturer manufacturer = builder.instance();
+         manufacturer.carsProduced().set( 100l );
+         manufacturer.country().set( "USA" );
+         manufacturer.name().set( "blah" );
+         builder.newInstance();
+         uow.complete();
 
          moduleRegistration = bundleContext.registerService( Module.class.getName(), module, new Hashtable() );
          LOGGER.info( "Module registered." );
@@ -133,21 +148,47 @@ public final class Activator implements BundleActivator {
 
             //             config.entities( SQLConfiguration.class ).visibleIn( Visibility.layer );
 
-            // H2 Entity Store
+            // H2 DataSource
             new ExternalDataSourceAssembler( ds ).
                   visibleIn( Visibility.module ).
                   identifiedBy( "h2-datasource" ).
                   withCircuitBreaker( DataSources.newDataSourceCircuitBreaker() ).
                   assemble( module );
 
+            // H2 Entity Store
             new H2SQLEntityStoreAssembler().
                   visibleIn( Visibility.application ).
                   withConfigVisibility( Visibility.layer ).
                   withConfig( config ).
                   assemble( module );
-
             module.addServices( OrgJsonValueSerializationService.class )
                   .taggedWith( ValueSerialization.Formats.JSON );
+
+            // SQL Index/Query
+            new H2SQLIndexQueryAssembler()
+                  .visibleIn( Visibility.application )
+                  .withConfigVisibility( Visibility.layer )
+                  .withConfig( config )
+                  .assemble( module );
+
+            //            module.addServices( SQLIndexingEngineService.class )
+            //                  .setMetaInfo( h2Vender() )
+            //                  .instantiateOnStartup();
+            //            module.addServices( SQLIndexing.class )
+            //                  .withMixins( AbstractSQLIndexing.class )
+            //                  .setMetaInfo( h2Vender() )
+            //                  .instantiateOnStartup();
+            //            module.addServices( SQLQuerying.class )
+            //                  .withMixins( AbstractSQLQuerying.class )
+            //                  .setMetaInfo( h2Vender() )
+            //                  .instantiateOnStartup();
+            //            module.addServices( SQLAppStartup.class )
+            //                  .withMixins( AbstractSQLStartup.class )
+            //                  .setMetaInfo( h2Vender() )
+            //                  .instantiateOnStartup();
+            //            module.addServices( ReindexAllService.class )
+            //                  .setMetaInfo( h2Vender() )
+            //                  .instantiateOnStartup();
 
             //            final SQLConfiguration config = moduleAssembly.forMixin( SQLConfiguration.class ).declareDefaults();
             //            config.schemaName().set( "poc" );
@@ -186,7 +227,18 @@ public final class Activator implements BundleActivator {
 
             return applicationAssembly;
          }
+
       };
+   }
+
+   @SuppressWarnings("unused")
+   private H2Vendor h2Vender() {
+      try {
+         return SQLVendorProvider.createVendor( H2Vendor.class );
+      }
+      catch( Throwable exception ) {
+         throw new RuntimeException( "Failed to get H2 vendor", exception );
+      }
    }
 
    public void stop( BundleContext bundleContext ) throws Exception {

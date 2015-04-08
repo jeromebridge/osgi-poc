@@ -100,6 +100,11 @@
         </dependency>
         <dependency>
             <groupId>org.qi4j.extension</groupId>
+            <artifactId>org.qi4j.extension.indexing-sql</artifactId>
+            <version>${qi4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.qi4j.extension</groupId>
             <artifactId>org.qi4j.extension.entitystore-sql</artifactId>
             <version>${qi4j.version}</version>
         </dependency>
@@ -244,6 +249,7 @@
                             org.qi4j.spi.*,
                             org.qi4j.spi.entitystore,
                             org.qi4j.entitystore.sql.assembly,
+                            org.qi4j.spi.query,
 
                             *
                         </Import-Package>
