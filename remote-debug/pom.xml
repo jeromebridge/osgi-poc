@@ -20,7 +20,7 @@
         <repository>
             <name>Internal Nexus Repository</name>
             <id>internal-nexus-repository</id>
-            <url>http://repo.pennassurancesoftware.com/content/groups/public</url>
+            <url>http://repo.pennassurancesoftware.com/artifactory/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -31,7 +31,7 @@
         <repository>
             <name>Internal Nexus Snapshot Repository</name>
             <id>internal-nexus-snapshot-repository</id>
-            <url>http://repo.pennassurancesoftware.com/content/repositories/snapshots</url>
+            <url>http://repo.pennassurancesoftware.com/artifactory/public-snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -65,11 +65,49 @@
             <version>${pax.url.version}</version>
         </dependency>
 
+        <!-- PAX Web -->
+        <dependency>
+            <groupId>org.ops4j.pax.web</groupId>
+            <artifactId>pax-web-runtime</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ops4j.pax.web</groupId>
+            <artifactId>pax-web-jetty</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <!-- Tomcat -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-catalina</artifactId>
+            <version>7.0.53</version>
+        </dependency>
+
         <!-- OBR -->
         <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.bundlerepository</artifactId>
             <version>2.0.2</version>
+        </dependency>
+
+        <!-- Felix Web Console -->
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.webconsole</artifactId>
+            <version>4.2.8</version>
+        </dependency>
+
+        <!-- Virgo -->
+        <dependency>
+            <groupId>org.eclipse.virgo</groupId>
+            <artifactId>org.eclipse.virgo.web.core</artifactId>
+            <version>3.6.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.virgo</groupId>
+            <artifactId>org.eclipse.virgo.management.console</artifactId>
+            <version>3.6.3.RELEASE</version>
         </dependency>
     </dependencies>
 </project>
