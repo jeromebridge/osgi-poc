@@ -69,12 +69,12 @@
         <dependency>
             <groupId>org.ops4j.pax.web</groupId>
             <artifactId>pax-web-runtime</artifactId>
-            <version>3.2.1</version>
+            <version>4.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.ops4j.pax.web</groupId>
             <artifactId>pax-web-jetty</artifactId>
-            <version>3.2.1</version>
+            <version>4.1.1</version>
         </dependency>
 
         <!-- Tomcat -->
@@ -82,6 +82,25 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>
             <version>7.0.53</version>
+        </dependency>
+
+        <!-- Jetty -->
+        <dependency>
+            <groupId>org.eclipse.jetty.osgi</groupId>
+            <artifactId>jetty-osgi-boot</artifactId>
+            <version>9.2.11.M0</version>
+        </dependency>
+
+        <!-- XBean Finder -->
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-bundleutils</artifactId>
+            <version>4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-finder</artifactId>
+            <version>4.2</version>
         </dependency>
 
         <!-- OBR -->
@@ -96,6 +115,13 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.webconsole</artifactId>
             <version>4.2.8</version>
+        </dependency>
+
+        <!-- Primefaces -->
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>4.0</version>
         </dependency>
 
         <!-- Virgo -->
